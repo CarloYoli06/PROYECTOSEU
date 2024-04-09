@@ -1,0 +1,23 @@
+#menu-container {
+    background-color: #f8f9fa; /* Color de fondo */
+    padding: 10px; /* Espaciado interno */
+    border-bottom: 1px solid #ccc; /* Borde inferior */
+}
+
+/* Estilos adicionales para el contenedor de la tabla */
+#table-container {
+    overflow-x: auto; /* Agregar scroll horizontal si es necesario */
+    max-width: 100%; /* Ajustar al ancho del contenedor padre */
+    margin-top: 20px; /* Espaciado superior */
+}
+
+#tituloPer {
+    background-color: #FF6104;
+    color: white;
+    padding: 10px;
+    margin-right: 10px;
+    text-align: center;
+    border-radius: 10px;
+    border-bottom: 1px solid #ccc;
+    width: 450px;
+}
