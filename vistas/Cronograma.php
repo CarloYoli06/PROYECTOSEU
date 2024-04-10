@@ -50,12 +50,8 @@
             <tr>
                 <th></th>
                 <?php
-                // Generar las horas del día como encabezados de columna en formato de hora
-                for ($hora = 6; $hora <= 22; $hora++) {
-                    // Convertir la hora al formato de 12 horas (AM/PM)
-                    $hora_formato = ($hora < 12) ? "$hora AM" : (($hora == 12) ? "12 PM" : ($hora - 12) . " PM");
-                    echo "<th>$hora_formato</th>";
-                }
+                include('../control/GestionCalendario.php');
+                generateWeekTable();
                 ?>
             </tr>
         </thead>
