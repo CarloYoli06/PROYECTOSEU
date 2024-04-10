@@ -49,107 +49,27 @@
         <thead class="table-primary">
             <tr>
                 <th></th>
-                <?php
-                include('../control/GestionCalendario.php');
-                generateWeekTable();
+                <?php 
+                include("../control/conexion.php");
+                include('../control/SistemaActividades.php');
+                generateWeekTable($conexion);
                 ?>
             </tr>
         </thead>
         <tbody>
             <?php
-            include("conexion.php");
-            // Definir la semana actual y obtener el primer día de la semana
-            $semana_actual = date('W');
-            $fecha_inicio_semana = date('Y-m-d', strtotime(date('Y')."W".$semana_actual));
+           
             
-            // Función para obtener las actividades de una fecha y hora específicas
-            function obtenerActividades($fecha, $hora, $conexion) {
-                // Formatear la fecha y hora para la consulta SQL
-                $fechaHora = $fecha . ' ' . $hora . ':00:00';
-            
-                // Consulta SQL para obtener las actividades en la fecha y hora especificadas
-                $consulta = "SELECT NOMBRE FROM actividad WHERE FECHA = '$fecha' AND HOUR(HORARIO) = '$hora'";
-                $resultado = mysqli_query($conexion, $consulta);
-            
-                // Array para almacenar los nombres de las actividades
-                $actividades = array();
-            
-                // Recorrer el resultado de la consulta y almacenar los nombres de las actividades
-                while ($fila = mysqli_fetch_assoc($resultado)) {
-                    $actividades[] = $fila['NOMBRE'];
-                }
-            
-                return $actividades;
-            }
-            
-            // Generar las filas de la tabla para cada día de la semana
-            for ($dia = 0; $dia < 7; $dia++) {
-                $fecha = date('Y-m-d', strtotime($fecha_inicio_semana . " +$dia day"));
-                echo "<tr>";
-                echo "<td>$fecha</td>";
-                // Generar celdas para cada hora del día
-                for ($hora = 6; $hora <= 22; $hora++) {
-                    echo "<td>";
-                    // Obtener las actividades de la fecha y hora actual
-                    $actividades = obtenerActividades($fecha, $hora, $conexion);
-                    // Mostrar las actividades en la celda
-                    foreach ($actividades as $actividad) {
-                        echo $actividad . "<br>";
-                    }
-                    echo "</td>";
-                }
-                echo "</tr>";
-            }
             ?>
         </tbody>
     </table>
 </div>
 
 <!-- Agregar controles de navegación por semana -->
-<div class="container-fluid mt-3">
-    <div class="d-flex justify-content-center">
-        <button id="anteriorSemana" class="btn btn-secondary">Semana Anterior</button>
-        <button id="siguienteSemana" class="btn btn-secondary ml-2">Siguiente Semana</button>
-    </div>
-</div>
+
 <script src="js/bootstrap.bundle.min.js"></script>
 <script>
-    // Variable global para almacenar la fecha de inicio de la semana actual
-    var fechaInicioSemana = new Date();
 
-    // Función para actualizar la tabla con la nueva semana
-    function actualizarTabla() {
-        var tabla = document.getElementById('tablaActividades').getElementsByTagName('tbody')[0];
-        var fechaInicio = new Date(fechaInicioSemana);
-        
-        // Recorrer cada fila de la tabla
-        for (var i = 0; i < 7; i++) {
-            var fila = tabla.rows[i];
-            var fecha = new Date(fechaInicio);
-            fecha.setDate(fechaInicio.getDate() + i); // Añadir el día correspondiente de la semana
-
-            // Actualizar la primera columna con la fecha
-            fila.cells[0].innerHTML = fecha.toISOString().split('T')[0]; // Formatear la fecha YYYY-MM-DD
-
-            // Si necesitas más personalización del formato de fecha, puedes usar métodos de Date o librerías como Moment.js
-        }
-    }
-
-    // Event listener para el botón "Semana Anterior"
-    document.getElementById('anteriorSemana').addEventListener('click', function() {
-        fechaInicioSemana.setDate(fechaInicioSemana.getDate() - 7); // Retroceder 7 días
-        actualizarTabla();
-    });
-
-    // Event listener para el botón "Siguiente Semana"
-    document.getElementById('siguienteSemana').addEventListener('click', function() {
-        fechaInicioSemana.setDate(fechaInicioSemana.getDate() + 7); // Avanzar 7 días
-        actualizarTabla();
-    });
-
-    // Llamada inicial para mostrar la semana actual
-    actualizarTabla();
 </script>
-<?php include("conexion.php");?>
 </body
 </html>
