@@ -1,0 +1,87 @@
+body{
+    background: url(../img/fondo.jpg) no-repeat center center fixed;
+    background-size:cover ;
+
+}
+
+header {
+    background-repeat: no-repeat; /* Repeat the image (optional) */
+    background-color: white;
+    height: 80px; /* Set the header height */
+    color: #fff; /* Text color for contrast against the image */
+    text-align: center; /* Center the header content */
+  }
+
+
+  .imgcabeza {
+    margin-top: 0px;
+    width: 40%; /* Stretch the image to the full header width */
+    height: 100%; /* Stretch the image to the full header height */
+    object-fit: cover; /* Preserve aspect ratio while covering the header */
+  }
+.main-section{
+    border: 2PX solid black;
+    margin: 0 auto;
+    margin-top: 40%;
+    padding: 0 ;
+    border-radius: 5%
+}
+
+.modal-content{
+    
+    background-color: #308BBE ;
+    padding: 0 0px 0 0px;
+    box-shadow: 0px 0px 3px #ffff;
+    border-radius: 5%;
+
+}
+.user-img{
+    margin-top: -50px;
+    margin-bottom: 50px;
+}
+
+.user-img img{
+    width: 100PX;
+    height: 100px;
+}
+
+h1{
+    text-align: center;
+    padding: 0 0 20px 0;
+    font-size: 20px;
+    color:white;
+}
+.form-group input{
+
+    
+    border: 2PX solid black;
+    position: static;
+    height: 42px;
+    font-size: 18px;
+    border: 0;
+    padding-left: 54px;
+   
+    
+}
+
+.form-group::before{
+font-family: "font Awesome\ 5 Free";
+position: absolute;
+left: 28px;
+font-size: 22px;
+padding-top: 4px;
+}
+
+.form-group#user-group::before{
+    content: "\f007";
+}
+
+
+.form-group#contraseña-group::before{
+    content: "\f023";
+}
+
+button{
+    width: 60%;
+    margin: 5px 0 25px;
+}
