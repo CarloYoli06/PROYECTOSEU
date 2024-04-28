@@ -1,7 +1,11 @@
 <?php
 echo '<link rel="stylesheet" href="Pcontent.css">';
-   
+
+
 function generateWeekTable($conn) {
+    //Validar por usuario
+        $id_usuario =  $_SESSION['id_usuario'];
+        $nombre=$_SESSION['nombre_usuario'];
     // Definir los nombres de los días de la semana en español
     $dias_semana = array('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo');
 
@@ -58,7 +62,7 @@ function generateWeekTable($conn) {
             do {
                 // Realizar consulta para obtener eventos en esta hora y día
                 $fecha = $clone_dt->format('Y-m-d') . ' ' . $hora;
-                $sql = "SELECT * FROM actividad WHERE HORARIO = '$fecha'";
+                $sql = "SELECT * FROM actividad a inner join alumnos_actividad al on (a.id_actividad= al.id_EVENTO) WHERE HORARIO = '$fecha' and al.noCtrl = '$id_usuario'";
                 $result = mysqli_query($conn, $sql);
         
                 // Verificar si se encontraron eventos

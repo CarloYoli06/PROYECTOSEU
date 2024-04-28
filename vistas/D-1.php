@@ -1,11 +1,11 @@
 <?php
  session_start(); 
- if(!isset($_SESSION['usuario'] )){
+ if(!$_SESSION['autenticado']){
     header("location: U-1.php");
     exit();
  } 
-    $id_usuario = $_SESSION['usuario'];
-    
+    $id_usuario =  $_SESSION['id_usuario'];
+    $nombre=$_SESSION['nombre_usuario'];
 
 ?>
 <!DOCTYPE html>
@@ -20,7 +20,7 @@
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
     <link rel="stylesheet" type="text/css" href="css/common.css" />
     <link rel="stylesheet" type="text/css" href="css/fonts.css" />
-    <link rel="stylesheet" type="text/css" href="css/D1.css" />
+    <link rel="stylesheet" type="text/css" href="/ProyectoSEU/vistas/css/D-1.css" />
     <script type="text/javascript" src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script type="text/javascript" src="https://unpkg.com/sticky-js@1.3.0/dist/sticky.min.js"></script>
     <script type="text/javascript" src="https://unpkg.com/headroom.js@0.12.0/dist/headroom.min.js"></script>
@@ -261,7 +261,7 @@
                 <button style="display: inline-flex; flex-direction: row; align-items: center; position: relative; background: none; border: none; padding: 5px; text-align: left;">
                     <p class="UsuarioP" style="font-weight: bold; font-size: 25px; text-align: right; margin-left: 40px; margin-right: 40px; padding-top: 10px;" 
                     data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <?php echo $id_usuario; ?>
+                        <?php echo $nombre; ?>
                     </p>
                     <img class="puntoVerde" src="./assets/green_circle_flat.png" alt="Punto Verde" style="width: 25px; height: 25px; vertical-align: middle;" />
                 </button>
@@ -336,7 +336,7 @@
                 <?php  }?>
                     
                 </div>
-                <input type="text" name="id" id="caja">
+                <input type="text" name="id" id="caja" style="display: none;">
                 </form>
                 
                 

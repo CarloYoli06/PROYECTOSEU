@@ -1,11 +1,11 @@
 <?php
  session_start(); 
- if(!isset($_SESSION['usuario'] )){
+ if(!$_SESSION['autenticado']){
     header("location: U-1.php");
     exit();
  } 
-    $id_usuario = $_SESSION['usuario'];
-    
+    $id_usuario =  $_SESSION['id_usuario'];
+    $nombre=$_SESSION['nombre_usuario'];
 
 ?>
 <!DOCTYPE html>
@@ -126,7 +126,7 @@
                 <button style="display: inline-flex; flex-direction: row; align-items: center; position: relative; background: none; border: none; padding: 5px; text-align: left;">
                     <p class="UsuarioP" style="font-weight: bold; font-size: 25px; text-align: right; margin-left: 40px; margin-right: 40px; padding-top: 10px;" 
                     data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <?php echo $id_usuario; ?>
+                        <?php echo $nombre ?>
                     </p>
                     <img class="puntoVerde" src="./assets/green_circle_flat.png" alt="Punto Verde" style="width: 25px; height: 25px; vertical-align: middle;" />
                 </button>
