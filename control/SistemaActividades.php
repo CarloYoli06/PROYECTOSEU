@@ -1,6 +1,11 @@
 <?php
+echo '<link rel="stylesheet" href="Pcontent.css">';
+
 
 function generateWeekTable($conn) {
+    //Validar por usuario
+        $id_usuario =  $_SESSION['id_usuario'];
+        $nombre=$_SESSION['nombre_usuario'];
     // Definir los nombres de los días de la semana en español
     $dias_semana = array('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo');
 
@@ -8,8 +13,7 @@ function generateWeekTable($conn) {
     $meses = array('Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre');
 
     // Definir las horas del día
-    $horas = array('00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00');
-
+    $horas = array('07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00');
     $dt = new DateTime;
     if (isset($_GET['year']) && isset($_GET['week'])) {
         $dt->setISODate($_GET['year'], $_GET['week']);
@@ -19,48 +23,70 @@ function generateWeekTable($conn) {
     $year = $dt->format('o');
     $week = $dt->format('W');
 
-    echo '<a href="' . $_SERVER['PHP_SELF'] . '?week=' . ($week - 1) . '&year=' . $year . '">Semana Anterior</a>'; // Semana anterior
-    echo '<a href="' . $_SERVER['PHP_SELF'] . '?week=' . ($week + 1) . '&year=' . $year . '">Próxima Semana</a>'; // Próxima semana
+    echo '<form method="GET" action="' . $_SERVER['PHP_SELF'] . '">';
+    echo '<input type="hidden" name="year" value="' . $year . '">';
+    echo '<input type="hidden" name="week" value="' . ($week - 1) . '">';
+    echo '<button type="submit" id="SemanaAnterior">Semana Anterior</button>';
+    echo '</form>';
+    
+    echo '<form method="GET" action="' . $_SERVER['PHP_SELF'] . '">';
+    echo '<input type="hidden" name="year" value="' . $year . '">';
+    echo '<input type="hidden" name="week" value="' . ($week + 1) . '">';
+    echo '<button type="submit"  id="SemanaProxima">Próxima Semana</button>';
+    echo '</form>';
 
-    echo '<table border="1">';
-    echo '<tr>';
-    echo '<th></th>'; // Celda vacía para la esquina superior izquierda
-
+    echo '<table border="1"  style="width: 100%; border-collapse: border-color: transparent;">';
+    echo '<tr style="border-color: transparent;">';
+    echo '<th style="border: 1px solid black; padding: 8px;  text-align: center;border-color: transparent;"></th>'; // Celda vacía para la esquina superior izquierda
+    $id_actividad=0 ;
     // Generar los encabezados de columna para los días de la semana en español
-    $dt->modify('Monday this week');
+    $clone_dt = clone $dt;
+    $clone_dt->modify('Monday this week');
     do {
-        echo '<th>' . $dias_semana[$dt->format('N') - 1] . '<br>' . $dt->format('d') . ' ' . $meses[$dt->format('n') - 1] . '</th>';
-        $dt->modify('+1 day');
-    } while ($week == $dt->format('W'));
+        echo '<th style="border-color: transparent;font-size: 20px">' . $dias_semana[$clone_dt->format('N') - 1] . '<br>' . $clone_dt->format('d') . ' ' . $meses[$clone_dt->format('n') - 1] . '</th >';
+        $clone_dt->modify('+1 day');
+    } while ($week == $clone_dt->format('W'));
     echo '</tr>';
 
-    // Generar las filas para las horas del día
-    foreach ($horas as $hora) {
-        echo '<tr>';
-        echo '<th>' . $hora . '</th>'; // Encabezado de fila con la hora
-        // Generar las celdas para cada día de la semana
-        $dt->modify('Monday this week');
-        do {
-            echo '<td>'; // Celda para la actividad
-            // Realizar consulta para obtener eventos en esta hora y día
-            $fecha = $dt->format('Y-m-d') . ' ' . $hora;
-            $sql = "SELECT * FROM actividad WHERE HORARIO = '$fecha'";
-            $result = mysqli_query($conn, $sql);
-            if (mysqli_num_rows($result) > 0) {
-                // Mostrar los eventos encontrados
-                while ($row = mysqli_fetch_assoc($result)) {
-                    echo $row['NOMBRE'] . '<br>';
+    // Array para almacenar los IDs de las actividades
+        $ids_actividades = array();
+        $id_actividad="";
+        // Generar las filas para las horas del día
+        foreach ($horas as $hora) {
+            $colores_predefinidos = array('#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF');
+            echo '<tr  style="border-color: transparent;">';
+            echo '<th style="border-color: transparent;font-size: 20px;min-heght:100px;">' . $hora . '</th>'; // Encabezado de fila con la hora
+            // Generar las celdas para cada día de la semana
+            $clone_dt = clone $dt;
+            $clone_dt->modify('Monday this week');
+            do {
+                // Realizar consulta para obtener eventos en esta hora y día
+                $fecha = $clone_dt->format('Y-m-d') . ' ' . $hora;
+                $sql = "SELECT * FROM actividad a inner join alumnos_actividad al on (a.id_actividad= al.id_EVENTO) WHERE HORARIO = '$fecha' and al.noCtrl = '$id_usuario'";
+                $result = mysqli_query($conn, $sql);
+        
+                // Verificar si se encontraron eventos
+                if (mysqli_num_rows($result) > 0) {
+                    // Mostrar los eventos encontrados
+                    $color_index = array_rand($colores_predefinidos);
+                    $random_color = $colores_predefinidos[$color_index];
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        $id_actividad = $row['id_ACTIVIDAD']; // Obtener el ID de la actividad
+                        echo '<td class="evento-celda" style="background-color: ' . $random_color . '; font-weight: bold;color: white;min-heght:100px;" data-id="' . intval($id_actividad) . '">';// Celda para el evento
+                        echo $row['NOMBRE'] . '<br>';
+                        // Almacenar el ID de la actividad en el array
+                        $ids_actividades[] = $id_actividad;
+                        echo '</td>';
+                    }
+                } else {
+                    // Si no se encontraron eventos, imprimir una celda normal
+                    echo '<td class="otra-clase" ></td>';
                 }
-            }
-            echo '</td>';
-            $dt->modify('+1 day');
-        } while ($week == $dt->format('W'));
-        echo '</tr>';
-    }
+                $clone_dt->modify('+1 day');
+            } while ($week == $clone_dt->format('W'));
+            echo '</tr>';
+        }
 
     echo '</table>';
 }
-
-// Llamar a la función para generar la tabla de la semana
-
 ?>

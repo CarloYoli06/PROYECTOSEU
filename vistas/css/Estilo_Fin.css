@@ -1,0 +1,146 @@
+body{
+    background: url(../img/fondo.jpg) no-repeat center center fixed;
+    background-size:cover ;
+
+}
+
+header {
+    background-repeat: no-repeat; /* Repeat the image (optional) */
+    background-color: white;
+    height: 80px; /* Set the header height */
+    color: #fff; /* Text color for contrast against the image */
+    text-align: center; /* Center the header content */
+  }
+
+
+  .imgcabeza {
+    margin-top: 0px;
+    width: 40%; /* Stretch the image to the full header width */
+    height: 100%; /* Stretch the image to the full header height */
+    object-fit: cover; /* Preserve aspect ratio while covering the header */
+  }
+.main-section{
+    border: 2PX solid white;
+    margin: 0 auto;
+    margin-top: 10%;
+    margin-bottom: 18.5%;
+    padding: 0 ;
+    border-radius: 10%;
+    min-width: 70%;
+    min-height: 50%;
+}
+.modal-dialog {
+    margin: 1.75rem auto;
+    min-width: 70%;
+    min-height: 50%;
+}
+
+.modal-content{
+    
+    background-color: white;
+    padding: 0 0px 0 0px;
+    box-shadow: 0px 0px 3px #ffff;
+    border-radius: 10%;
+    min-width: 70%;
+    min-height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centra los elementos horizontalmente */
+    align-items: center;
+}
+
+h1{
+    text-align: center;
+    padding: 0 0 20px 0;
+    font-size: 20px;
+    color:white;
+}
+.form-group input{
+
+    
+    border: 2PX solid black;
+    position: static;
+    height: 42px;
+    font-size: 18px;
+    border: 0;
+    padding-left: 54px;
+   
+    
+}
+
+.form-group::before{
+font-family: "font Awesome\ 5 Free";
+position: absolute;
+left: 28px;
+font-size: 22px;
+padding-top: 4px;
+}
+
+
+button{
+    width: 60%;
+    margin: 5px 0 25px;
+}
+
+.header_cerrar {
+    display: flex;
+    justify-content: center; /* Centra los elementos horizontalmente */
+    align-items: center; /* Centra los elementos verticalmente */
+    background-color: white;
+    height: 5%;
+    width: 100%;
+}
+
+.logo {
+    width: auto; /* Ajusta el ancho según tu preferencia */
+    height: 50px; /* Mantiene la proporción original */
+    margin: 0 10px; /* Ajusta el margen entre las imágenes */
+}
+
+.contenido {
+    
+    display: flex;
+    justify-content: center; /* Centra los elementos horizontalmente */
+    align-items: center;
+    flex: 1; /* El contenido ocupará todo el espacio disponible */
+}
+
+.ventana {
+    background-color: rgba(255, 255, 255, 1); /* Color de fondo con transparencia */
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra los elementos horizontalmente */
+    justify-content: center; /* Centra los elementos verticalmente */
+    border-radius: 20px; /* Bordes redondeados */
+    width: 50%; /* Ancho al 70% del contenedor padre */
+    height: 400px; /* Alto al 70% del contenedor padre */
+}
+
+.letra_ventana {
+    text-align: center; /* Alinea el texto al centro */
+    font-family: "Arial", sans-serif; /* Tipo de fuente */
+    font-size: 24px; /* Tamaño de la fuente */
+    font-weight: bold; /* Aplica negritas */
+}
+
+
+
+.footer_cerrar {
+    background-color: #308BBE;
+    height: 50px;
+    width: 100%;
+}
+.boton_personalizado {
+    background-color: #F15903; /* Color naranja */
+    border: none; /* Sin borde */
+    color: white; /* Texto blanco */
+    padding: 10px 20px; /* Espaciado interno */
+    border-radius: 20px; /* Bordes redondeados */
+    cursor: pointer; /* Cambia el cursor al pasar */
+    transition: background-color 0.3s ease; /* Transición suave */
+}
+
+.boton_personalizado:hover {
+    background-color: #D94C00; /* Cambia el color al pasar el mouse */
+}

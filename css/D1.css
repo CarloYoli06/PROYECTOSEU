@@ -1,0 +1,271 @@
+.d1.pag_D-1 {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  overflow: hidden;
+}
+.d1 .contenido {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 34px auto 180px;
+  width: 95.57%;
+}
+.d1 .encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0px 10px;
+  width: 99.4%;
+}
+.d1 .titulo {
+  width: 459px;
+  font: 700 32px/1.43 "Murecho", Helvetica, Arial, serif;
+  color: white;
+  background-color: #f15903;
+  padding: 18px 84px 15px 39px;
+}
+.d1 .acciones_encabezado {
+  display: flex;
+  justify-content: space-between;
+  gap: 0px 10px;
+  width: 421px;
+}
+.d1 .notificaciones {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin: 2px 0px 0px;
+  width: 75px;
+  min-height: 77px;
+}
+.d1 .puntoRojo {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 22px;
+  height: 23px;
+  border-radius: 11px 11px 11px 11px;
+}
+.d1 .campana {
+  position: absolute;
+  top: 2px;
+  left: 0px;
+  width: 75px;
+  height: 75px;
+}
+.d1 .usuario {
+  display: flex;
+  align-items: center;
+  gap: 0px 10px;
+  margin: 22px 0px 18px;
+  width: 186px;
+}
+.d1 .nombre_usuario {
+  display: flex;
+  justify-content: center;
+  font: 400 32px/1.21 "Inter", Helvetica, Arial, serif;
+  color: black;
+  text-align: center;
+}
+.d1 .puntoAzul {
+  width: 22px;
+  height: 23px;
+  border-radius: 11px 11px 11px 11px;
+}
+.d1 .btn_menu {
+  display: flex;
+  flex-direction: column;
+  margin: 0px 0px 1px;
+  width: 76px;
+  background-color: #f15903;
+  border-radius: 15px 15px 15px 15px;
+}
+.d1 .tres_lineas {
+  display: flex;
+  flex-direction: column;
+  margin: 18px 13px 17px;
+}
+.d1 .linea1 {
+  min-height: 7px;
+  background-color: white;
+  border-radius: 3.25px 3.25px 3.25px 3.25px;
+}
+.d1 .linea2 {
+  margin: 11px 0px 0px;
+  min-height: 7px;
+  background-color: white;
+  border-radius: 3.25px 3.25px 3.25px 3.25px;
+}
+.d1 .linea3 {
+  margin: 12px 0px 0px;
+  min-height: 6px;
+  background-color: white;
+  border-radius: 3.25px 3.25px 3.25px 3.25px;
+}
+.d1 .area_inscripciones {
+  display: flex;
+  flex-direction: column;
+  margin: 81px 0px 0px;
+  width: 98.58%;
+}
+.d1 .header_area1 {
+  display: flex;
+  justify-content: space-between;
+  gap: 0px 10px;
+}
+.d1 .subtitulo_area1 {
+  margin: 0px 0px 16px;
+  font: 600 20px/1.45 "Murecho", Helvetica, Arial, serif;
+  color: black;
+}
+.d1 .lineaNegra1 {
+  margin: 26px 0px 0px;
+  width: 1577px;
+}
+.d1 .tarjeta1 {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  margin: 6px 0px 0px 5px;
+  width: 481px;
+  min-height: 237px;
+}
+.d1 .fondo {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  width: 481px;
+  height: 237px;
+  border-radius: 0px 0px 25px 25px;
+}
+.d1 .titulo_actividad {
+  position: absolute;
+  top: 28px;
+  left: 28px;
+  width: 421px;
+  height: 58px;
+  font: 600 20px/1.45 "Murecho", Helvetica, Arial, serif;
+  color: #fdfdfd;
+}
+.d1 .btn_info {
+  position: absolute;
+  bottom: 14px;
+  left: 171px;
+  display: flex;
+  flex-direction: column;
+  width: 289px;
+  height: 54px;
+  background-color: #f15903;
+  border-radius: 12px 12px 12px 12px;
+}
+.d1 .texto_btn {
+  margin: 14px auto 11px;
+  font: 600 20px/1.45 "Murecho", Helvetica, Arial, serif;
+  color: white;
+}
+.d1 .lineaNegra2 {
+  margin: 13px 0px 0px 1px;
+  width: calc(100% - 1px);
+}
+.d1 .area_actividadesProximas {
+  display: flex;
+  flex-direction: column;
+  margin: 79px 0px 0px;
+  width: 98.58%;
+}
+.d1 .header_area2 {
+  display: flex;
+  justify-content: space-between;
+  gap: 0px 10px;
+  margin: 0px 1px 0px 0px;
+}
+.d1 .subtitulo_area2 {
+  font: 600 20px/1.45 "Murecho", Helvetica, Arial, serif;
+  color: black;
+}
+.d1 .rectlineaNegra3 {
+  margin: 21px 0px 2px;
+  width: 1577px;
+  min-height: 6px;
+  background-color: black;
+}
+.d1 .tarjetas_de_actividades {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 100px;
+  grid-gap: 200px;
+}
+.d1 .tarjeta2 {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 481px;
+  min-height: 243px;
+}
+.d1 .fondo1 {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  display: flex;
+  flex-direction: column;
+  width: 481px;
+  height: 243px;
+  background: var(--src) center center/100% 100% no-repeat;
+  border-radius: 0px 0px 25px 25px;
+}
+.d1 .titulo_actividad2 {
+  margin: 28px 32px 157px 28px;
+  font: 600 20px/1.45 "Murecho", Helvetica, Arial, serif;
+  color: #fdfdfd;
+}
+.d1 .btn_info2 {
+  position: absolute;
+  bottom: 20px;
+  left: 170px;
+  display: flex;
+  flex-direction: column;
+  width: 289px;
+  height: 54px;
+  background-color: #f15903;
+  border-radius: 12px 12px 12px 12px;
+}
+.d1 .texto_btn2 {
+  margin: 14px auto 11px;
+  font: 600 20px/1.45 "Murecho", Helvetica, Arial, serif;
+  color: white;
+}
+.d1 .tarjeta3 {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 481px;
+  min-height: 243px;
+}
+.d1 .titulo_actividad3 {
+  margin: 28px 32px 157px 28px;
+  font: 600 20px/1.45 "Murecho", Helvetica, Arial, serif;
+  color: #fdfdfd;
+}
+.d1 .btn_info3 {
+  position: absolute;
+  bottom: 20px;
+  left: 171px;
+  display: flex;
+  flex-direction: column;
+  width: 289px;
+  height: 54px;
+  background-color: #f15903;
+  border-radius: 12px 12px 12px 12px;
+}
+.d1 .texto_btn3 {
+  margin: 14px auto 11px;
+  font: 600 20px/1.45 "Murecho", Helvetica, Arial, serif;
+  color: white;
+}
+.d1 .lineaNegra4 {
+  margin: 14px 0px 0px;
+  width: 100%;
+}
