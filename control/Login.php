@@ -52,7 +52,7 @@ function acceso($conexion, $regreso, $nc) {
             $_SESSION['autenticado'] = true;
             echo "Usuario: $id_personal_admin<br>";
             echo "Nombre: $nombres_admin<br>";
-            header("location: /ProyectoSEU/vistas/A-1.php");
+            header("location: /ProyectoSEU/vistas/A-02.php");
             break;
         case 3:
             $sql_profesor = "SELECT id_personal, nombres FROM personal WHERE id_personal = ?";
