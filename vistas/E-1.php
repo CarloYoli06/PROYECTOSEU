@@ -167,51 +167,6 @@
 </div>
 
 <!--
-<div class="p-3 mb-2  text-warning-emphasis d-flex justify-content-between align-items-center" containe style="background-color:white">
-     Columna izquierda para el menú desplegable 
-    <div class="col">
-        <div id="tituloPer" style="background-color: #308BBE; color:white; font-weight: bold; padding-bottom:5px;padding-top:5px;max-width: 500px;">
-            <h2>Cronograma de actividades</h2>
-        </div>
-        
-    </div>
-    
-     Columna central para el título 
-    <div class="col">
-        <div class="d-flex justify-content-end">
-            <button id="verEventos" class="btn btn-primary" style="background-color: #FF6104; color: white; font-weight: bold;">Ver Eventos</button>
-        </div>
-    </div>-->
-
-    <!-- Columna derecha para el botón -->
-    <!-- Columna derecha para el botón 
-    <div  style="text-align: right;display: flex;background-color:white">
-    <button type="button" class="notificaciones" style="position: relative; background: none; border: none; padding: 5px;text-align: right;">
-        <img class="puntoRojo" src="./assets/red_circle_flat.png" alt="Punto Rojo" style="position: absolute; top: 0; right: 0; z-index: 1;width: 20px; height: 20px" />
-        <img class="campana" src="./assets/e56188aff073d3826d113a02398e223b.png" alt="Campana" style="width: 40px; height: 40px;" />
-    </button>
-    <p class="UsuarioP" style="font-weight: bold; font-size: 25px;text-align: right; margin-left:40px;margin-right:40px;padding-top: 10px;">
-        ALUMNO
-    </p>
-    <p style="text-align: center;padding-top: 15px;margin-right:40px;">
-    <img class="puntoVerde" src="./assets/green_circle_flat.png" alt="Punto Verde"  style="width: 25px; height: 25px;" />
-    </p>
-    <div class="btn-group">
-        <button style="background-color: #308BBE; color: white; border-color: #308BBE; font-weight: bold; font-size: 30px;" 
-                type="button" class="btn btn-secondary" data-bs-toggle="dropdown" aria-expanded="false">
-            
-            <i class="fas fa-bars"></i>
-        </button>
-        <ul class="dropdown-menu hovazul dropdown-menu-end">
-            <li><button class="dropdown-item" type="button">Ir a lista de Actividades</button></li>
-            <li><button class="dropdown-item" type="button">Another action</button></li>
-            <li><button class="dropdown-item" type="button">Something else here</button></li>
-        </ul>
-    </div>
-</div>
-  
-
-</div>
 -->
 <div id="table-container" class="container-fluid" style="border-color: transparent;background-color:white">
     <table id="tablaActividades" class="table table-striped" style="border-color: transparent;">
@@ -286,8 +241,8 @@
                 </div>
             </div>
             <div class="asistir">
-                <button type="button" class="btn btn-primary btn-lg boton_personalizado" style="margin-right: 10%; margin-bottom: 3%;">Desinscribirse</button>
-                <button type="button" class="btn btn-primary btn-lg boton_personalizado" style="margin-left: 10%; margin-bottom: 3%;">Registrar mi asistencia</button>
+                <button type="button" class="btn btn-primary btn-lg boton_personalizado" id="btnDesinscribirse">Desinscribirse</button>
+                <button type="button" class="btn btn-primary btn-lg boton_personalizado" data-bs-toggle="modal" data-bs-target="#modalqr" style="margin-left: 10%; margin-bottom: 3%;">>Registrar Asistencia</button>
             </div>
             <div class="modal-footer footer_ventana">
                 <p> </p>
@@ -295,20 +250,66 @@
         </div>
     </div>
 </div>
+<!-- VENTANA MODAL PARA QR-->
+<div class="modal modal_prin" id="modalqr" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content ">
+      <div class="modal-header header_modal" >
+        <h5 class="modal-title titulo_actividad text-center">Asistencia</h5>
+        <button type="button" class="btn-close boton_cerrar" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class=" modal_contenedor">
+        <div class="elemento_contenedor1">
+          <div class="contenedor_imagen">
+          
+          
+
+          <?php
+
+            include('../control/barcode.php');
+            $generator=new barcode_generator();
+            $options=array('sx'=>15,'sy'=>15,'p'=>-12);
+            $svg=$generator->render_svg("qr",$id_usuario,$options);
+            echo $svg;
+
+          ?>
+        </div>
+        </div>
+      </div>
+      <div class="asistir">
+          <h6 class="asistir">Presenta el codigo QR al asistente encargado de la asistencia</h6>
+      </div>
+      <div class="modal-footer footer_ventana">
+          <p> </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
+     var idActividad = 0;
 $(document).ready(function() {
     $('#tablaActividades tbody').css('border-color', 'transparent');
     $('.evento-celda').click(function() {
-        var idActividad = parseInt($(this).data('id'));  //$(this).text();//$(this).data('id'); // Captura el ID de la actividad de la celda
+        idActividad = parseInt($(this).data('id'));  //$(this).text();//$(this).data('id'); // Captura el ID de la actividad de la celda
         mostrarDetalleEvento(idActividad); // Llama a la función mostrarDetalleEvento con el ID de la actividad
         $('#nombreEvento').text(idActividad);
     });
+
+    $('#btnDesinscribirse').click(function() {
+        desinscribirse(idActividad);
+    });
+    
 });
 
+function desinscribirse(idActividad) {
+    // Redirigir a desinscribirse.php con el ID de la actividad como parámetro
+    window.location.href = "../control/desinscribirse.php?id_actividad=" + idActividad;
+}
 function mostrarDetalleEvento(idActividad) {
     // Realiza una solicitud AJAX para obtener más detalles de la actividad
     $.ajax({
