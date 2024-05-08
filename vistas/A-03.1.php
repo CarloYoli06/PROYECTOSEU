@@ -16,14 +16,77 @@
     
     <title>Escanear</title>
     <!-- Enlace a Bootstrap CSS -->
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="icon" type="image/png" href="./assets/1.png">
     
     
 
 </head>
+<script>
+    function tabla(id){
+        var ruta="t="+id;
+        $.ajax({
+                url: '/ProyectoSEU/control/backAsis.php',
+                type: 'GET',
+                data: ruta,
+            })
+            .done(function(res){
+                $('#datos').html(res)
+                
+            })
+            .fail(function(){
+                console.log("error");
+            })
+            .always(function(){
+                console.log("complete");
+            });
+    }
+
+    function registrar(){
+        var nct=$('#txt').val();
+        var ruta="id="+<?php echo $_GET['id'];?>+"&nct="+nct;
+        $.ajax({
+                url: '/ProyectoSEU/control/backAsis.php',
+                type: 'GET',
+                data: ruta,
+            })
+            .done(function(res){
+               $(tabla('<?php echo $_GET['id'];?>')); 
+               $('#alerta').html(res) 
+            })
+            .fail(function(){
+                console.log("error");
+            })
+            .always(function(){
+                console.log("complete");
+
+            });
+
+    }
+     // Función para actualizar la hora cada segundo
+        function actualizarHora() {
+            var elementoHora = document.getElementById('hora');
+            var ahora = new Date();
+            var hora = ahora.getHours();
+            var minutos = ahora.getMinutes();
+            var segundos = ahora.getSeconds();
+
+            // Añadir ceros a la izquierda si es necesario
+            hora = (hora < 10 ? "0" : "") + hora;
+            minutos = (minutos < 10 ? "0" : "") + minutos;
+            segundos = (segundos < 10 ? "0" : "") + segundos;
+
+            // Actualizar el contenido del elemento con la nueva hora
+            elementoHora.innerHTML = hora + ":" + minutos + ":" + segundos;
+        }
+
+        // Actualizar la hora cada segundo
+        setInterval(actualizarHora, 1000);
+
+</script>
 <body class="body_cerrar">
     <HEader>
         
@@ -33,6 +96,10 @@
     <div class="col">
         <div id="tituloPer" style="background-color: #308BBE; color:white; font-weight: bold; padding-bottom:5px;padding-top:5px;max-width: 400px;">
             <h2>&nbsp ESCANEAR</h2>
+
+
+
+            
         </div>
         
     </div>
@@ -94,16 +161,28 @@
 </div>
 
 <div style="display: grid; grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(1, 1fr); margin-bottom: 0px;">
+
     <div class="funciones" style="display: grid; grid-template-columns: repeat(2, 1fr); margin-top: 20px;">
-        <a class="navbar-brand act" style="font-weight: bold; text-align: center; font-size: 30px; height: 60px;">Conferencia Big-Data</a>
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="height: 60px;">Registrar</button>
+        <?php $n=$_GET['n'];  ?>
+        <a class="navbar-brand act" style="font-weight: bold; text-align: center; font-size: 30px; height: 60px;"><?php echo $n;?></a>
+
+        <button class="btn btn-outline-success my-2 my-sm-0" onclick="registrar()" type="button" style="height: 60px;">Registrar</button>
+
         <a class="navbar-brand act" style="font-weight: bold; text-align: right; font-size: 30px;">Hora:</a>
-        <a class="navbar-brand act" style="font-weight: normal; text-align: left; font-size: 30px;">16:30</a>
-        <a class="navbar-brand act" style="font-weight: bold; text-align: center; font-size: 30px;">Scanner conectado</a>
+        <a class="navbar-brand act" style="font-weight: normal; text-align: left; font-size: 30px;" id="hora"><?php echo date("H:i:s");?></a>
+        
+        
+          <!-- AQUI VA LA CAMARA XD -->
+        <video id="preview" style="margin-left:50px;"></video>
+        <a></a>
+        
+        <input placeholder="No Ctrl" class="form-control mr-sm-2" type="text" aria-label="Search" id="txt">
+        <a></a><a class="navbar-brand act" style="font-weight: bold; text-align: center; font-size: 30px;">Scanner conectado</a>
 
     </div>
-
-    <div class="cont_tabla">
+    
+    <div class="cont_tabla" id="datos">
+        
         <table class="table tabla table-bordered">
         <thead>
             <tr class="table-secondary">
@@ -112,51 +191,24 @@
             </tr>
         </thead>
         <tbody id="content">
-        
+        <?php 
+            include "../control/conexion.php";
+                $id=$_GET['id'];
+                $sql=$conexion->query("select a.noCtrl as nc,a.NOMBRE as nom, CONCAT(a.APELLIDOPAT,' ',a.APELLIDOMAT,' ',a.NOMBRE) as ape,a.carrera as ca,a.SEMESTRE as se,a.CORREO as co from alumnos a inner join alumnos_actividad aa on(a.noCtrl=aa.noCtrl) inner join actividad ac on(aa.id_EVENTO=ac.id_ACTIVIDAD) where ac.id_ACTIVIDAD=$id and aa.ASISTENCIA=1");
+                while($datos=$sql->fetch_object()){
+                    echo $id;
+
+                ?>
             <tr>
-                <th>21400000</th>
-                <th>Alumno Ejemplo</th>
+                <th><?= $datos->nc?></th>
+                <th><?= $datos->ape?></th>
             </tr>
-            <tr>
-                <th>21400000</th>
-                <th>Alumno Ejemplo</th>
-            </tr>
-            <tr>
-                <th>21400000</th>
-                <th>Alumno Ejemplo</th>
-            </tr>
-            <tr>
-                <th>21400000</th>
-                <th>Alumno Ejemplo</th>
-            </tr>
-            <tr>
-                <th>21400000</th>
-                <th>Alumno Ejemplo</th>
-            </tr>
-            <tr>
-                <th>21400000</th>
-                <th>Alumno Ejemplo</th>
-            </tr>
-            <tr>
-                <th>21400000</th>
-                <th>Alumno Ejemplo</th>
-            </tr>
-            <tr>
-                <th>21400000</th>
-                <th>Alumno Ejemplo</th>
-            </tr>
-            <tr>
-                <th>21400000</th>
-                <th>Alumno Ejemplo</th>
-            </tr>
-            <tr>
-                <th>21400000</th>
-                <th>Alumno Ejemplo</th>
-            </tr>
+            <?php  }?>
 
         </tbody>
         </table>
     </div>
+    <div id="alerta"></div>
 </div>
 
 
@@ -164,7 +216,26 @@
 <footer class="footer_cerrar">
     <p> <br></p>
 </footer>
-
+<script>
+                // Crear un objeto de escáner Instascan
+                let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+                
+                // Función que se ejecuta cada vez que se escanea un código QR
+                scanner.addListener('scan', function(content) {
+                alert('Escaneado: ' + content);
+                });
+                
+                // Iniciar la cámara y comenzar a escanear
+                Instascan.Camera.getCameras().then(function(cameras) {
+                if (cameras.length > 0) {
+                    scanner.start(cameras[0]);
+                } else {
+                    console.error('No se encontró ninguna cámara en el dispositivo.');
+                }
+                }).catch(function(e) {
+                console.error(e);
+                });
+            </script>
 
 <script src="js/bootstrap.bundle.min.js"></script>
 

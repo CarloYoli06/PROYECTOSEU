@@ -1,4 +1,5 @@
 <?php
+include "../control/conexion.php";
  session_start(); 
  if(!$_SESSION['autenticado']){
     header("location: U-1.php");
@@ -6,6 +7,28 @@
  } 
     $id_usuario =  $_SESSION['id_usuario'];
     $nombre=$_SESSION['nombre_usuario'];
+
+
+    if(isset($_GET['id'])) {
+        // Sanitizar el ID de la actividad
+        $nombre = mysqli_real_escape_string($conexion, $_GET['id']);
+    
+        // Realizar la consulta para obtener los detalles de la actividad
+        $query = "SELECT * FROM ACTIVIDAD WHERE NOMBRE LIKE '%$nombre%'";
+        $result = mysqli_query($conexion, $query);
+        
+        if($result && mysqli_num_rows($result) >0 ){
+        $q = "SELECT A.NOMBRE AS ACTIVIDAD, A.FECHA AS FECHA, CONVERT(A.HORARIO,TIME) AS HORA, E.CARRERA AS CARRERA, E.NOMBRE AS EVENTO, A.LUGAR AS LUGAR, A.CAPACIDAD  From actividad A
+        INNER JOIN evento_actividad EA ON(EA.ACTIVIDAD_id_ACTIVIDAD = A.id_ACTIVIDAD)
+        INNER JOIN evento E ON(E.id_EVENTO = EA.Evento_id_EVENTO) WHERE id_Actividad IN (SELECT id_Actividad FROM ACTIVIDAD WHERE NOMBRE LIKE '%$nombre%')";
+        $r = mysqli_query($conexion,$q);
+       
+
+        
+ 
+        
+    
+
 
 ?>
 <!DOCTYPE html>
@@ -47,7 +70,7 @@
                 <button style="display: inline-flex; flex-direction: row; align-items: center; position: relative; background: none; border: none; padding: 5px; text-align: left;">
                     <p class="UsuarioP" style="font-weight: bold; font-size: 25px; text-align: right; margin-left: 40px; margin-right: 40px; padding-top: 10px;" 
                     data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <?php echo $nombre ?>
+            
                     </p>
                     <img class="puntoVerde" src="./assets/green_circle_flat.png" alt="Punto Verde" style="width: 25px; height: 25px; vertical-align: middle;" />
                 </button>
@@ -105,9 +128,9 @@
     
     <nav class="navbar bus">
         <a class="navbar-brand act">Actividad: </a>
-        <form class="form-inline">
-            <input class="form-control mr-sm-2" type="buscar" placeholder="" aria-label="Search" style="width: 1170px;">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+        <form class="form-inline" method = "post"  action = "/ProyectoSEU/control/buscar2_1.php">
+            <input class="form-control mr-sm-2" type="buscar" placeholder="" aria-label="Search" style="width: 1170px;"  name = "bar">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit"  name = "button" >Buscar</button>
         </form>
     </nav>
 
@@ -128,119 +151,27 @@
         <th scope="col" style="width: 130px;">Visibilidad</th>
         </tr>
     </thead>
-    <tbody id="content">
     
+    <tbody id="content">
+    <?php
+     while($dato = mysqli_fetch_array($r)){
+    ?>
         <tr>
-            <th>Conferencia</th>
-            <th>01/04/24</th>
-            <th>16:00</th>
-            <th>ISC</th>
-            <th>Jornada academica</th>
-            <th>Sala audiovisual</th>
-            <th>100</th>
+            <th><?php echo($dato['ACTIVIDAD']) ?></th>
+            <th><?php echo($dato['FECHA']) ?></th>
+            <th><?php echo($dato['HORA']) ?></th>
+            <th><?php echo($dato['CARRERA']) ?></th>
+            <th><?php echo($dato['EVENTO']) ?></th>
+            <th><?php echo($dato['LUGAR']) ?></th>
+            <th><?php echo($dato['CAPACIDAD']) ?></th>
             <th><a href="ass.s">Editar</a></th>
             <th><input type="checkbox" id="cbox1" value="primer_checkbox" /></th>
         </tr>
-        <tr>
-            <th>Conferencia</th>
-            <th>01/04/24</th>
-            <th>12:00</th>
-            <th>IGE</th>
-            <th>Jornada academica</th>
-            <th>Sala audiovisual</th>
-            <th>100</th>
-            <th><a href="ass.s">Editar</a></th>
-            <th><input type="checkbox" id="cbox2" value="segundo_checkbox" /></th>
-        </tr>
-        <tr>
-            <th>Partido</th>
-            <th>01/04/24</th>
-            <th>15:00</th>
-            <th>IE</th>
-            <th>Jornada academica</th>
-            <th>Cancha 2</th>
-            <th>-</th>
-            <th><a href="ass.s">Editar</a></th>
-            <th><input type="checkbox" id="cbox1" value="primer_checkbox" /></th>
-        </tr>
-        <tr>
-            <th>Partido</th>
-            <th>01/04/24</th>
-            <th>09:00</th>
-            <th>IQ</th>
-            <th>Jornada academica</th>
-            <th>Cancha 1</th>
-            <th>-</th>
-            <th><a href="ass.s">Editar</a></th>
-            <th><input type="checkbox" id="cbox1" value="primer_checkbox" /></th>
-        </tr>
-        <tr>
-            <th>Conferencia</th>
-            <th>01/04/24</th>
-            <th>10:00</th>
-            <th>IBQ</th>
-            <th>Jornada academica</th>
-            <th>Sala audiovisual</th>
-            <th>100</th>
-            <th><a href="ass.s">Editar</a></th>
-            <th><input type="checkbox" id="cbox1" value="primer_checkbox" /></th>
-        </tr>
-        <tr>
-            <th>Conferencia</th>
-            <th>01/04/24</th>
-            <th>18:00</th>
-            <th>ISC</th>
-            <th>Jornada academica</th>
-            <th>Sala audiovisual</th>
-            <th>100</th>
-            <th><a href="ass.s">Editar</a></th>
-            <th><input type="checkbox" id="cbox1" value="primer_checkbox" /></th>
-        </tr>
-        <tr>
-            <th>Conferencia</th>
-            <th>01/04/24</th>
-            <th>12:00</th>
-            <th>IGE</th>
-            <th>Jornada academica</th>
-            <th>Sala audiovisual</th>
-            <th>100</th>
-            <th><a href="ass.s">Editar</a></th>
-            <th><input type="checkbox" id="cbox2" value="segundo_checkbox" /></th>
-        </tr>
-        <tr>
-            <th>Partido</th>
-            <th>01/04/24</th>
-            <th>13:00</th>
-            <th>IE</th>
-            <th>Jornada academica</th>
-            <th>Cancha 1</th>
-            <th>-</th>
-            <th><a href="ass.s">Editar</a></th>
-            <th><input type="checkbox" id="cbox1" value="primer_checkbox" /></th>
-        </tr>
-        <tr>
-            <th>Conferencia</th>
-            <th>01/04/24</th>
-            <th>10:00</th>
-            <th>-</th>
-            <th>Jornada academica</th>
-            <th>Sala audiovisual</th>
-            <th>100</th>
-            <th><a href="ass.s">Editar</a></th>
-            <th><input type="checkbox" id="cbox1" value="primer_checkbox" /></th>
-        </tr>
-        <tr>
-            <th>Conferencia</th>
-            <th>01/04/24</th>
-            <th>12:00</th>
-            <th>-</th>
-            <th>Jornada academica</th>
-            <th>Sala audiovisual</th>
-            <th>100</th>
-            <th><a href="ass.s">Editar</a></th>
-            <th><input type="checkbox" id="cbox1" value="primer_checkbox" /></th>
-        </tr>
-
+       <?php 
+                }
+            }
+        }    
+        ?>
     </tbody>
     </table>
 </div>
