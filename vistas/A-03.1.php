@@ -26,6 +26,9 @@
 
 </head>
 <script>
+    var idActividad=0;
+    
+    
     function tabla(id){
         var ruta="t="+id;
         $.ajax({
@@ -46,26 +49,26 @@
     }
 
     function registrar(){
-        var nct=$('#txt').val();
-        var ruta="id="+<?php echo $_GET['id'];?>+"&nct="+nct;
-        $.ajax({
-                url: '/ProyectoSEU/control/backAsis.php',
-                type: 'GET',
-                data: ruta,
-            })
-            .done(function(res){
-               $(tabla('<?php echo $_GET['id'];?>')); 
-               $('#alerta').html(res) 
-            })
-            .fail(function(){
-                console.log("error");
-            })
-            .always(function(){
-                console.log("complete");
+    var nct=$('#txt').val();
+    var ruta="id="+<?php echo $_GET['id'];?>+"&nct="+nct;
+    $.ajax({
+        url: '/ProyectoSEU/control/backAsis.php',
+        type: 'GET',
+        data: ruta,
+    })
+    .done(function(res){
+        // Llamar a la función tabla para actualizar la tabla con los nuevos datos
+        tabla(<?php echo $_GET['id'];?>);
+        $('#alerta').html(res); 
+    })
+    .fail(function(){
+        console.log("error");
+    })
+    .always(function(){
+        console.log("complete");
+    });
+}
 
-            });
-
-    }
      // Función para actualizar la hora cada segundo
         function actualizarHora() {
             var elementoHora = document.getElementById('hora');
@@ -163,10 +166,13 @@
 <div style="display: grid; grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(1, 1fr); margin-bottom: 0px;">
 
     <div class="funciones" style="display: grid; grid-template-columns: repeat(2, 1fr); margin-top: 20px;">
-        <?php $n=$_GET['n'];  ?>
+        <?php $n=$_GET['n'];  
+         $id=$_GET['id'];
+
+         ?>
         <a class="navbar-brand act" style="font-weight: bold; text-align: center; font-size: 30px; height: 60px;"><?php echo $n;?></a>
 
-        <button class="btn btn-outline-success my-2 my-sm-0" onclick="registrar()" type="button" style="height: 60px;">Registrar</button>
+        <button class="btn btn-outline-success my-2 my-sm-0" onclick="registrar2()" type="button" style="height: 60px;">Registrar</button>
 
         <a class="navbar-brand act" style="font-weight: bold; text-align: right; font-size: 30px;">Hora:</a>
         <a class="navbar-brand act" style="font-weight: normal; text-align: left; font-size: 30px;" id="hora"><?php echo date("H:i:s");?></a>
@@ -196,8 +202,9 @@
                 $id=$_GET['id'];
                 $sql=$conexion->query("select a.noCtrl as nc,a.NOMBRE as nom, CONCAT(a.APELLIDOPAT,' ',a.APELLIDOMAT,' ',a.NOMBRE) as ape,a.carrera as ca,a.SEMESTRE as se,a.CORREO as co from alumnos a inner join alumnos_actividad aa on(a.noCtrl=aa.noCtrl) inner join actividad ac on(aa.id_EVENTO=ac.id_ACTIVIDAD) where ac.id_ACTIVIDAD=$id and aa.ASISTENCIA=1");
                 while($datos=$sql->fetch_object()){
-                    echo $id;
-
+                    
+                
+                   
                 ?>
             <tr>
                 <th><?= $datos->nc?></th>
@@ -210,9 +217,9 @@
     </div>
     <div id="alerta"></div>
 </div>
-
-
-
+<?php 
+echo "<script>  idActividad = $id; </script>"
+?>
 <footer class="footer_cerrar">
     <p> <br></p>
 </footer>
@@ -222,7 +229,25 @@
                 
                 // Función que se ejecuta cada vez que se escanea un código QR
                 scanner.addListener('scan', function(content) {
-                alert('Escaneado: ' + content);
+                    
+                     // Enviar el contenido escaneado a otro archivo PHP usando AJAX
+                     $.ajax({
+                        url: '../control/RegistraAsistencia.php', // Reemplaza 'ruta_a_tu_archivo_php.php' con la ruta correcta
+                        type: 'POST', // Método HTTP para enviar los datos
+                        data: { codigo: content ,idact: idActividad}, // Datos a enviar, en este caso el contenido escaneado
+                        success: function(response) {
+                            // Manejar la respuesta del servidor
+                            registrar();
+                            
+                            alert(response);
+                            
+                            console.log(response); 
+                        },
+                        error: function(xhr, status, error) {
+                            // Manejar errores de la petición AJAX
+                            console.error(xhr.responseText); // Imprimir mensaje de error en la consola del navegador
+                        }
+                    });
                 });
                 
                 // Iniciar la cámara y comenzar a escanear
@@ -238,7 +263,36 @@
             </script>
 
 <script src="js/bootstrap.bundle.min.js"></script>
+<script>
+    function registrar2() {
+    var nct = $('#txt').val().trim(); // Obtener el número de control del input existente
 
+    // Verificar que se haya ingresado un número de control
+    if (nct === "") {
+        alert("Por favor ingresa un número de control.");
+        return;
+    }
+
+    // Construir la ruta y los datos a enviar mediante AJAx
+    
+    $.ajax({
+        url: '../control/RegistraAsistencia.php', // Reemplaza 'ruta_a_tu_archivo_php.php' con la ruta correcta
+        type: 'POST', // Método HTTP para enviar los datos
+        data: { codigo: nct ,idact: idActividad}, // Datos a enviar, en este caso el contenido escaneado
+        success: function(response) {
+              // Manejar la respuesta del servidor
+        tabla(<?php echo $_GET['id'];?>);
+        alert(response);
+                            
+        console.log(response); 
+        },
+        error: function(xhr, status, error) {
+         // Manejar errores de la petición AJAX
+        console.error(xhr.responseText); // Imprimir mensaje de error en la consola del navegador
+         }
+    });
+}
+</script>
 </body>
 <style>
 .boton_personalizado {

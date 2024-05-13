@@ -2,8 +2,8 @@
 include "conexion.php";
 if (isset($_GET['n'])) {
 	$q=$_GET['n'];
-	$resultado=$conexion->query("select*from actividad where NOMBRE like '%$q%'");
-	$salida='<table class="table tabla table-bordered">
+	$resultado = $conexion->query("SELECT id_ACTIVIDAD, NOMBRE, HORARIO FROM actividad WHERE NOMBRE LIKE '%$q%'");
+    $salida='<table class="table tabla table-bordered">
     <thead>
         <tr class="table-secondary">
         <th scope="col" style="width: 700px;">Actividad</th>
@@ -47,19 +47,4 @@ if (isset($_GET['n'])) {
 	echo $salida;
   }
 
-  if (isset($_GET['id']) and isset($_GET['nct']) and strlen($_GET['nct'])<=10) {
-   				$nctrl=$_GET['nct'];
-
-				$act=$_GET['id'];
-				$sql=$conexion->query("call sp_asistencia('$nctrl',$act)");
-				$datos=$sql->fetch_object();
-				$ms=$datos->MSJ;
-				$ms1="NÚMERO DE CONTROL INVALIDO";
-				
-				if(strcmp($ms,$ms1)==0){
-				  echo "<script>alert('".$ms."')</script>";
-					
-				}
-				
-   } 
 ?>
