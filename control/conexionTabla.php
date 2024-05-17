@@ -1,5 +1,13 @@
 <?php   
 
+
+$host = "localhost";
+$usuario = "root";
+$clave = "";
+$bd = "seu";
+
+$conexion = new mysqli($host,$usuario,$clave,$bd);
+
     class conexionTabla{
         public static function conectar(){
             define ('servidor','localhost');

@@ -1,6 +1,6 @@
 <?php
  session_start(); 
- if(!$_SESSION['autenticado']){
+ if(!$_SESSION['autenticado'] or $_SESSION['tipous']!=2){
     header("location: U-1.php");
     exit();
  } 
@@ -38,6 +38,7 @@
     </div>
     
     <div  style="text-align: right;display: flex;background-color:white">
+    <button type="button csv" class="btn btn-lg boton_personalizado btn-primary " onclick="window.location.href='A-02.php';">VOLVER</button>
         <button type="button" class="notificaciones" style="position: relative; background: none; border: none; padding: 5px;text-align: right;">
             <img class="puntoRojo" src="./assets/red_circle_flat.png" alt="Punto Rojo" style="position: absolute; top: 0; right: 0; z-index: 1;width: 20px; height: 20px" />
             <img class="campana" src="./assets/e56188aff073d3826d113a02398e223b.png" alt="Campana" style="width: 40px; height: 40px;" />
@@ -92,14 +93,14 @@
         </nav>
     </div>
 </div>
-
+<form >
+    
 <div class="funciones">
 
     <nav class="navbar bus" style="height: 90px; margin-left: 15px; width: 500px; background-color: #FFFFFF;">
-        <form class="form-inline">
-            <input class="form-control mr-sm-2" type="buscar" placeholder="" aria-label="Search" style="height: 50px; width: 380px;">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Editar</button>
-        </form>
+        
+            <input class="form-control mr-sm-2" id="evento" name="evento" type="buscar" required placeholder="Nombre del evento" aria-label="Search" style="height: 50px; width: 400px;">
+        
     </nav>
 
 
@@ -107,33 +108,45 @@
 
         <nav class="navbar bus" style="height: 40px; background-color: #FFFFFF;">
             <a class="navbar-brand act" style="font-size: smaller; font-weight: bold;">Inicio: </a>
-            <form class="form-inline" style="height: 25px;">
-                <input class="form-control mr-sm-2" type="buscar" placeholder="" aria-label="Search" style="height: 20px;">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="height: 25px; font-size: 9px;">Editar</button>
-            </form>
+            
+                <input class="form-control mr-sm-2" type="date" id="inicio" name="inicio"  required  aria-label="Search" style="height: 20px;">
+ 
         </nav>
         
         <nav class="navbar bus" style="height: 40px; background-color: #FFFFFF;">
             <a class="navbar-brand act" style="font-size: smaller; font-weight: bold;">Carrera: </a>
-            <form class="form-inline" style="height: 25px;">
-                <input class="form-control mr-sm-2" type="buscar" placeholder="" aria-label="Search" style="height: 20px;" disabled>
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="height: 25px; font-size: 9px;">Editar</button>
-            </form>
+            
+                <select name="carrera" id="carrera" required>
+                    <!--LLenado del select de carrera-->
+                    <?php
+
+                    $sql = "SELECT id_carrera, nombre from carrera" ;
+                    $resultado = $conexion->query($sql);
+                    $num_rows = $resultado->num_rows;
+                    if($num_rows >0){
+                        while($row = $resultado->fetch_array()){
+                            echo '<option value="'.$row['id_carrera'].'">'.$row['nombre'].'</option> ';
+                        }
+                    }
+                    ?>
+                    
+                </select>
+            
         </nav>
 
         <nav class="navbar bus" style="height: 40px; background-color: #FFFFFF;">
-            <a class="navbar-brand act" style="font-size: smaller; font-weight: bold;">Fin: </a>
-            <form class="form-inline" style="height: 25px;">
-                <input class="form-control mr-sm-2" type="buscar" placeholder="" aria-label="Search" style="height: 20px;">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="height: 25px; font-size: 9px;">Editar</button>
-            </form>
+            <a class="navbar-brand act" style="font-size: smaller; font-weight: bold;">Fin: </a>  
+                <input class="form-control mr-sm-2"  type="date" required id="fin" name="fin" aria-label="Search" style="height: 20px;">   
         </nav>
 
     </div>
 
-    <button type="button csv" class="btn btn-lg boton_personalizado btn-primary " style="height: 60px; margin-left: 25%">Guardar</button>
+    <button type="button" name="crear_evento" id="crear_evento" class="btn btn-lg boton_personalizado btn-primary " style="height: 60px; margin-left: 25%">Crear evento</button>
 
 </div>
+</form>
+<form>
+<!-- action="../control/ActividadNueva.php" method="post" -->
 
 <div class="funciones">
 
@@ -142,71 +155,89 @@
 
             <nav class="navbar bus" style="background-color: #FFFFFF;">
                 <a class="navbar-brand act" style="font-size: large; font-weight: bold;">Nombre: </a>
-                <form class="form-inline">
-                    <input class="form-control mr-sm-2" type="buscar" placeholder="" aria-label="Search" style="width: 300px;">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Editar</button>
-                </form>
+               
+                    <input class="form-control mr-sm-2" id="nombreA" name="nombreA" type="buscar" disabled placeholder="" aria-label="Search" style="width: 300px;">
+                    
+               
             </nav>
 
             <nav class="navbar bus" style="background-color: #FFFFFF;">
                 <a class="navbar-brand act" style="font-size: large; font-weight: bold;">Lugar: </a>
-                <form class="form-inline">
-                    <input class="form-control mr-sm-2" type="buscar" placeholder="" aria-label="Search" style="width: 300px;">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Editar</button>
-                </form>
+                
+                    <input class="form-control mr-sm-2" id="lugarA" name="lugarA" type="buscar" disabled placeholder="" aria-label="Search" style="width: 300px;">
+                    
+                
             </nav>
 
             <nav class="navbar bus" style="background-color: #FFFFFF;">
                 <a class="navbar-brand act" style="font-size: large; font-weight: bold;">Tipo: </a>
-                <form class="form-inline">
-                    <input class="form-control mr-sm-2" type="buscar" placeholder="" aria-label="Search" style="width: 300px;">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Editar</button>
-                </form>
+                
+                    <select name="tipoA" id="tipoA" disabled>
+                        
+                    <option value="C">Club</option>
+                    <option value="T">Taller</option> 
+                            
+                    </select>
+                
             </nav>
 
             <nav class="navbar bus" style="background-color: #FFFFFF;">
                 <a class="navbar-brand act" style="font-size: large; font-weight: bold;">Capacidad: </a>
-                <form class="form-inline">
-                    <input class="form-control mr-sm-2" type="buscar" placeholder="" aria-label="Search" style="width: 300px;">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Editar</button>
-                </form>
+               
+                    <input class="form-control mr-sm-2" id="capacidadA" name="capacidadA" disabled type="number"  placeholder="" aria-label="Search" style="width: 300px;">
+                    
+                
             </nav>
 
             <nav class="navbar bus" style="background-color: #FFFFFF;">
                 <a class="navbar-brand act" style="font-size: large; font-weight: bold;">Fecha: </a>
-                <form class="form-inline">
-                    <input class="form-control mr-sm-2" type="buscar" placeholder="" aria-label="Search" style="width: 300px;">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Editar</button>
-                </form>
+               
+                    <input class="form-control mr-sm-2" id="fechaA" name="fechaA" type="date" disabled placeholder="" aria-label="Search" style="width: 300px;">
+                    
+                
             </nav>
 
             <nav class="navbar bus" style="background-color: #FFFFFF;">
                 <a class="navbar-brand act" style="font-size: large; font-weight: bold;">Expositor: </a>
-                <form class="form-inline">
-                    <input class="form-control mr-sm-2" type="buscar" placeholder="" aria-label="Search" style="width: 300px;" disabled>
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Editar</button>
-                </form>
+               
+                    
+                    <select name="expositorA" id="expositorA"  disabled>
+                    <!--LLenado del select de exposito-->
+                    <?php
+
+                    $sql = "SELECT idexpositor, nombre from expositor" ;
+                    $resultado = $conexion->query($sql);
+                    $num_rows = $resultado->num_rows;
+                    if($num_rows >0){
+                        while($row = $resultado->fetch_array()){
+                            echo '<option value="'.$row['idexpositor'].'">'.$row['nombre'].'</option> ';
+                        }
+                    }
+                    ?>
+
+                    </select>
+               
             </nav>
 
             <nav class="navbar bus" style="background-color: #FFFFFF;">
                 <a class="navbar-brand act" style="font-size: large; font-weight: bold;">Horario inicio: </a>
-                <form class="form-inline">
-                    <input class="form-control mr-sm-2" type="buscar" placeholder="" aria-label="Search" style="width: 300px;">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Editar</button>
-                </form>
+                
+                    <input class="form-control mr-sm-2" id="inicioA" name="inicioA" type="time" disabled placeholder="" aria-label="Search" style="width: 300px;">
+                    
+                
             </nav>
 
             <nav class="navbar bus" style="background-color: #FFFFFF;">
                 <a class="navbar-brand act" style="font-size: large; font-weight: bold;">Horario fin: </a>
-                <form class="form-inline">
-                    <input class="form-control mr-sm-2" type="buscar" placeholder="" aria-label="Search" style="width: 300px;">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Editar</button>
-                </form>
+                
+                    <input class="form-control mr-sm-2" id="finA" name="finA" type="time" disabled placeholder="" aria-label="Search" style="width: 300px;">
+                    
+                
             </nav>
             
             <nav class="navbar bus" style="background-color: #FFFFFF;">
                 <a class="navbar-brand act" style="font-size: large; font-weight: bold;">Asistencia obligatoria </a>
-                <input class="form-check" type="checkbox" id="cbox1" value="asistencia_checkbox" style="width: 210px;" />
+                <input class="form-check" type="checkbox" id="asistenciaA" name="asistenciaA" value="1" disabled  style="width: 210px;" />
             </nav>
 
         </div>
@@ -215,139 +246,62 @@
         
             <nav class="navbar bus" style="background-color: #FFFFFF;">
                 <a class="navbar-brand act" style="font-size: large; font-weight: bold;">Descripción: </a>
-                <form class="form-inline">
-                    <input class="form-control mr-sm-2" type="buscar" placeholder="" aria-label="Search" style="width: 900px; background-color: #d6d6d6; height: 150px;">
-                </form>
+               
+                    <input class="form-control mr-sm-2" type="buscar" id="descripcionA" name="descripcionA" disabled placeholder="" aria-label="Search" style="width: 900px; background-color: #d6d6d6; height: 150px;">
+                
             </nav>
 
             <nav class="navbar bus" style="background-color: #FFFFFF;">
                 <a class="navbar-brand act" style="font-size: large; font-weight: bold;">Profesores: </a>
-                <form class="form-inline">
-                    <input class="form-control mr-sm-2" type="buscar" placeholder="" aria-label="Search" style="width: 900px; background-color: #d6d6d6; height: 150px;" disabled>
-                </form>
+                
+                    <input class="form-control mr-sm-2" type="buscar" id="profesor"  aria-label="Search" style="width: 900px; background-color: #d6d6d6; height: 50px;" >
+                   
+                    <div class="cont_tabla">
+            <table class="table tabla table-bordered" id="tablaProfesores" >
+            <thead>
+                <tr class="table-secondary">
+                <th scope="col">Número de control</th>
+                <th scope="col">Profesor</th>
+                <th scope="col">Asignado</th>
+                </tr>
+            </thead>
+            <tbody id="content" >
+    
+        
+
+            </tbody>
+            </table>
+                </div>
+                    
             </nav>
 
-            <button type="button csv" class="btn btn-lg boton_personalizado btn-primary ">Asignar profesores</button>
+            <!--<button type="button csv" class="btn btn-lg boton_personalizado btn-primary ">Asignar profesores</button> -->
         </div>
     </div>
 
 
 </div>
 
-<div class="funciones">
-
-    <button type="button csv" class="btn btn-lg boton_personalizado btn-primary " >Agregar</button>
-
-    <button type="button csv" class="btn btn-lg boton_personalizado btn-primary " >Existente</button>
-
-</div>
-
+<button type="button" name="nueva_actividad" id="nueva_actividad" class="btn btn-lg boton_personalizado btn-primary " style="height: 60px; margin-left: 25%">Crear evento</button>
+    
+</form>
 <div class="cont_tabla">
     <table class="table tabla table-bordered">
     <thead>
         <tr class="table-secondary">
         <th scope="col">Avtividad</th>
         <th scope="col">Fecha</th>
-        <th scope="col" style="width: 130px;">Horario</th>
-        <th scope="col">Carrera</th>
+        <th scope="col" style="width: 130px;">Hora Inicio</th>
+        <th scope="col" style="width: 130px;">Hora fin</th>
         <th scope="col">Lugar</th>
         <th scope="col" style="width: 130px;">Capacidad</th>
         <th scope="col" style="width: 130px;">Obligatoria</th>
         </tr>
     </thead>
-    <tbody id="content">
+    <tbody id="conten">
     
-        <tr>
-            <th>Conferencia</th>
-            <th>01/04/24</th>
-            <th>16:00</th>
-            <th>ISC</th>
-            <th>Sala audiovisual</th>
-            <th>100</th>
-            <th><input type="checkbox" id="cbox1" value="primer_checkbox" /></th>
-        </tr>
-        <tr>
-            <th>Conferencia</th>
-            <th>01/04/24</th>
-            <th>12:00</th>
-            <th>IGE</th>
-            <th>Sala audiovisual</th>
-            <th>100</th>
-            <th><input type="checkbox" id="cbox2" value="segundo_checkbox" /></th>
-        </tr>
-        <tr>
-            <th>Partido</th>
-            <th>01/04/24</th>
-            <th>15:00</th>
-            <th>IE</th>
-            <th>Cancha 2</th>
-            <th>-</th>
-            <th><input type="checkbox" id="cbox1" value="primer_checkbox" /></th>
-        </tr>
-        <tr>
-            <th>Partido</th>
-            <th>01/04/24</th>
-            <th>09:00</th>
-            <th>IQ</th>
-            <th>Cancha 1</th>
-            <th>-</th>
-            <th><input type="checkbox" id="cbox1" value="primer_checkbox" /></th>
-        </tr>
-        <tr>
-            <th>Conferencia</th>
-            <th>01/04/24</th>
-            <th>10:00</th>
-            <th>IBQ</th>
-            <th>Sala audiovisual</th>
-            <th>100</th>
-            <th><input type="checkbox" id="cbox1" value="primer_checkbox" /></th>
-        </tr>
-        <tr>
-            <th>Conferencia</th>
-            <th>01/04/24</th>
-            <th>18:00</th>
-            <th>ISC</th>
-            <th>Sala audiovisual</th>
-            <th>100</th>
-            <th><input type="checkbox" id="cbox1" value="primer_checkbox" /></th>
-        </tr>
-        <tr>
-            <th>Conferencia</th>
-            <th>01/04/24</th>
-            <th>12:00</th>
-            <th>IGE</th>
-            <th>Sala audiovisual</th>
-            <th>100</th>
-            <th><input type="checkbox" id="cbox2" value="segundo_checkbox" /></th>
-        </tr>
-        <tr>
-            <th>Partido</th>
-            <th>01/04/24</th>
-            <th>13:00</th>
-            <th>IE</th>
-            <th>Cancha 1</th>
-            <th>-</th>
-            <th><input type="checkbox" id="cbox1" value="primer_checkbox" /></th>
-        </tr>
-        <tr>
-            <th>Conferencia</th>
-            <th>01/04/24</th>
-            <th>10:00</th>
-            <th>-</th>
-            <th>Sala audiovisual</th>
-            <th>100</th>
-            <th><input type="checkbox" id="cbox1" value="primer_checkbox" /></th>
-        </tr>
-        <tr>
-            <th>Conferencia</th>
-            <th>01/04/24</th>
-            <th>12:00</th>
-            <th>-</th>
-            <th>Sala audiovisual</th>
-            <th>100</th>
-            <th><input type="checkbox" id="cbox1" value="primer_checkbox" /></th>
-        </tr>
-
+    
+        
     </tbody>
     </table>
 </div>
@@ -362,6 +316,166 @@
 
 <script src="js/bootstrap.bundle.min.js"></script>
 
+
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/bootstrap.js"></script>
+<script>
+        
+    
+
+        document.getElementById("crear_evento").addEventListener("click", get_data)
+        document.getElementById("profesor").addEventListener("keyup", tablaProfesores)
+        document.getElementById("nueva_actividad").addEventListener("click", ActividadNueva)
+
+      
+
+        function get_data(){
+                let evento = document.getElementById("evento").value
+                let inicio = document.getElementById("inicio").value
+                let fin =document.getElementById("fin").value
+                let carrera =document.getElementById("carrera").value
+                let url = "../control/crear_evento.php"
+                let formadata = new FormData()
+                formadata.append("evento",evento)
+                formadata.append("inicio",inicio)
+                formadata.append("fin",fin)
+                formadata.append("carrera",carrera)
+                
+                fetch(url, {
+                        method: "POST",
+                        body: formadata,
+                })
+
+                const evento2 =  document.getElementById("evento")
+                const inicio2 = document.getElementById("inicio")
+                const fin2 =document.getElementById("fin")
+                const carrera2 = document.getElementById("carrera")
+                const nombre = document.getElementById("nombreA")
+                const lugar =document.getElementById("lugarA")
+                const tipo =document.getElementById("tipoA")
+                const capacidad = document.getElementById("capacidadA")
+                const horainicio =document.getElementById("inicioA")
+                const horafin =document.getElementById("finA")
+                const expositor =document.getElementById("expositorA")
+                const fecha = document.getElementById("fechaA")
+                const descripcion =document.getElementById("descripcionA")
+                const tableP =document.getElementById("tablaProfesores")
+                const asistencia =document.getElementById("asistenciaA")
+                
+                evento2.disabled = true
+                inicio2.disabled = true
+                fin2.disabled = true
+                carrera2.disabled = true
+                nombre.disabled =false
+                lugar.disabled=false
+                tipo.disabled=false
+                capacidad.disabled=false
+                horainicio.disabled=false
+                horafin.disabled=false
+                expositor.disabled=false
+                fecha.disabled=false
+                descripcion.disabled=false
+                tableP.disabled=false
+                asistencia.disabled=false
+                
+            }
+            
+            tablaProfesores()
+
+            function tablaProfesores(){
+                let content =document.getElementById("content")
+                let url = "../control/tablaProfesor.php"
+                let profesor = document.getElementById("profesor").value
+                let formadata = new FormData()
+                
+                formadata.append("profesor",profesor)
+                fetch(url, {
+                        method: "POST",
+                        body: formadata,
+                }).then(Response => Response.json())
+                .then(data =>{
+                    content.innerHTML= data
+                }).catch(err =>console.log(err))
+            }
+
+            function ActividadNueva(){
+                
+                let evento = document.getElementById("evento").value
+                let inicio = document.getElementById("inicio").value
+                let fin =document.getElementById("fin").value
+                let carrera =document.getElementById("carrera").value
+                let nombreA = document.getElementById("nombreA").value
+                let lugarA =document.getElementById("lugarA").value
+                let tipoA =document.getElementById("tipoA").value
+                let capacidadA = document.getElementById("capacidadA").value
+                let inicioA =document.getElementById("inicioA").value
+                let finA =document.getElementById("finA").value
+                let expositorA =document.getElementById("expositorA").value
+                let fechaA = document.getElementById("fechaA").value
+                let asistenciaA = document.getElementById("asistenciaA").value
+                let descripcionA =document.getElementById("descripcionA").value
+                let conten =document.getElementById("conten")
+
+                let url = "../control/ActividadNueva.php"
+                let formadata = new FormData()
+                formadata.append("evento",evento)
+                formadata.append("inicio",inicio)
+                formadata.append("fin",fin)
+                formadata.append("carrera",carrera)
+                formadata.append("nombreA",nombreA)
+                formadata.append("lugarA",lugarA)
+                formadata.append("tipoA",tipoA)
+                formadata.append("capacidadA",capacidadA)
+                formadata.append("inicioA",inicioA)
+                formadata.append("finA",finA)
+                formadata.append("expositorA",expositorA)
+                formadata.append("fechaA",fechaA)
+                formadata.append("asistenciaA",asistenciaA)
+                formadata.append("descripcionA",descripcionA)
+                
+                fetch(url, {
+                        method: "POST",
+                        body: formadata,
+                }).then(Response => Response.json())
+                .then(data =>{
+                    conten.innerHTML= data
+                }).catch(err =>console.log(err))
+
+                const evento2 =  document.getElementById("evento")
+                const inicio2 = document.getElementById("inicio")
+                const fin2 =document.getElementById("fin")
+                const carrera2 = document.getElementById("carrera")
+                const nombre = document.getElementById("nombreA")
+                const lugar =document.getElementById("lugarA")
+                const tipo =document.getElementById("tipoA")
+                const capacidad = document.getElementById("capacidadA")
+                const horainicio =document.getElementById("inicioA")
+                const horafin =document.getElementById("finA")
+                const expositor =document.getElementById("expositorA")
+                const fecha = document.getElementById("fechaA")
+                const descripcion =document.getElementById("descripcionA")
+                const tableP =document.getElementById("tablaProfesores")
+                const asistencia =document.getElementById("asistenciaA")
+                
+                evento2.disabled = true
+                inicio2.disabled = true
+                fin2.disabled = true
+                carrera2.disabled = true
+                nombre.value=""
+                lugar.value=""
+                tipo.value=""
+                capacidad.value=""
+                horainicio.value=""
+                horafin.value=""
+                expositor.value=""
+                fecha.value=""
+                descripcion.value=""
+                tableP.value=""
+                asistencia.value=""
+                
+            }
+
+    </SCRIPT>
 </body>
 <style>
 .boton_personalizado {
@@ -375,6 +489,9 @@
     margin: .3em;
     margin-left: 1em;
 }
+
+
+
 
 .btn_menu{
     margin: .5em;

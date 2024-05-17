@@ -1,7 +1,7 @@
 <?php
 
 session_start(); 
-if(!$_SESSION['autenticado']){
+if(!$_SESSION['autenticado'] or $_SESSION['tipous']!=3){
    header("location: U-1.php");
    exit();
 } 
@@ -11,22 +11,6 @@ if(!$_SESSION['autenticado']){
 include_once '../control/conexionTabla.php';
 $objeto = new conexionTabla();
 $conexion = $objeto->conectar();
-
-$consulta = "SELECT 
-aa.noCtrl,
-ac.NOMBRE AS nombre_actividad,
-al.NOMBRE,
-ac.FECHA
-FROM ALUMNOS_ACTIVIDAD aa
-JOIN ALUMNOS al ON aa.noCtrl = al.noCtrl
-JOIN ACTIVIDAD ac ON aa.id_EVENTO = ac.id_ACTIVIDAD;";
-
-$resultado = $conexion->prepare($consulta);
-$resultado->execute();
-$data=$resultado->fetchAll(PDO::FETCH_ASSOC);
-
-
-
 ?>
 
 
@@ -41,9 +25,24 @@ $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
     <!-- Enlace a Bootstrap CSS -->
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="icon" type="image/png" href="./assets/1.png">
-    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.btn_menu1').click(function(){
+                $('#navbarSupportedContent').toggle(); // Alterna la visibilidad del menú desplegable
+            });
+        });
+    </script>
+        <script>
+        $(document).ready(function(){
+            $('.btn_menu2').click(function(){
+                $('#navbarSupportedContent1').toggle(); // Alterna la visibilidad del menú desplegable
+            });
+        });
+    </script>
     
 
 </head>
@@ -67,7 +66,7 @@ $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
         </button>
         <div class="container-fluid">
                 <!-- Botón toggler -->
-                <button style="display: inline-flex; flex-direction: row; align-items: center; position: relative; background: none; border: none; padding: 5px; text-align: left;">
+                <button class="btn_menu2" style="display: inline-flex; flex-direction: row; align-items: center; position: relative; background: none; border: none; padding: 5px; text-align: left;">
                     <p class="UsuarioP" style="font-weight: bold; font-size: 25px; text-align: right; margin-left: 40px; margin-right: 40px; padding-top: 10px;" 
                     data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <?php echo $nombre; ?>
@@ -87,7 +86,7 @@ $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
         <nav class="navbar navbar-dark menu">
             <div class="container-fluid">
                 <!-- Botón toggler -->
-                <button class="navbar-toggler btn_main" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler btn_main btn_menu1" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <!-- Enlaces del navbar -->
@@ -102,56 +101,45 @@ $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </nav>
     </div>
-</div>v>
-
+</div>
+<!-- MIGUEL AQUI TUVE QUE AGREGAR UN FORM PARA PODER MANDAR LOS DATOS, ENTONCES SE MOVIÓ EL DISEÑO, TE LO ENCARGO-->
+<form action="../control/ExportarCsv.php" method="post">
 <div class="funciones">
-    <button type="button csv" class="btn btn-lg boton_personalizado btn-primary " onclick="window.location.href='Login.php';" >Exportar en .csv</button>
+    <button type="button csv" id="exportar" name="exportar" class="btn btn-lg boton_personalizado btn-primary " >Exportar en .xlsx</button>
 
     <nav class="navbar bus">
         <a class="navbar-brand act">Actividad: </a>
         <form class="form-inline">
-            <input class="form-control mr-sm-2" type="buscar" placeholder="Actividad" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+             <input class="form-control mr-sm-2" type="search" placeholder="No.Control" aria-label="Search"   name="campo" id="campo"> 
         </form>
     </nav>
 
     <nav class="navbar bus bus2">
         <a class="navbar-brand act">Alumno: </a>
         <form class="form-flex">
-            <input class="form-control mr-sm-2" type="search" placeholder="No.Control" aria-label="Search">
+            <input class="form-control mr-sm-2" type="search" placeholder="No.Control" aria-label="Search" name="alumno" id="alumno">
         </form>
     </nav>
 </div>
+</form>
 
 <div class="cont_tabla">
     <table class="table tabla table-bordered">
     <thead>
         <tr class="table-secondary">
-        <th scope="col">No.Ctrl</th>
         <th scope="col">Actividad</th>
+        <th scope="col">Número de control</th>
         <th scope="col">Nombre</th>
         <th scope="col">Fecha</th>
         </tr>
     </thead>
     <tbody id="content">
 
-    <?php
-    foreach($data as $dat){
- 
-    ?>
-        <tr>
-            <td><?php echo $dat['noCtrl'] ?></td>
-            <td><?php echo $dat['nombre_actividad'] ?></td>
-            <td><?php echo $dat['NOMBRE'] ?></td>
-            <td><?php echo $dat['FECHA'] ?></td>
-        </tr>
-
-        <?PHP
-    }
-        ?>
+    
     </tbody>
     </table>
 </div>
+
 
 
 
@@ -160,8 +148,38 @@ $data=$resultado->fetchAll(PDO::FETCH_ASSOC);
     <p> <br></p>
 </footer>
 
-
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/bootstrap.js"></script>
 <script src="js/bootstrap.bundle.min.js"></script>
+<script>
+    get_data()
+
+        document.getElementById("campo").addEventListener("keyup", get_data)
+        document.getElementById("alumno").addEventListener("keyup", get_data)
+
+        function get_data(){
+                let input = document.getElementById("campo").value
+                let input2 = document.getElementById("alumno").value
+                let content =document.getElementById("content")
+                let url = "../control/tabla.php"
+                let formadata = new FormData()
+                formadata.append("campo",input)
+                formadata.append("alumno",input2)
+                
+                fetch(url, {
+                        method: "POST",
+                        body: formadata,
+                }).then(Response => Response.json())
+                .then(data =>{
+                    content.innerHTML= data
+                }).catch(err =>console.log(err))
+
+            
+            }
+
+            
+    </SCRIPT>
+     
 
 </body>
 <style>

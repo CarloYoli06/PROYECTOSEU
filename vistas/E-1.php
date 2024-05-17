@@ -1,6 +1,6 @@
 <?php
  session_start(); 
- if(!$_SESSION['autenticado']){
+ if(!$_SESSION['autenticado'] or $_SESSION['tipous']!=1){
     header("location: U-1.php");
     exit();
  } 
@@ -15,7 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Cronograma de Actividades</title>
     <!-- Enlace a Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     
     <link rel="stylesheet" href="Pcontent.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
@@ -72,9 +72,7 @@
                 -1px  1px 0 #000,
                 1px  1px 0 #000;
         }
-        .dropdown-menu {
-            --bs-dropdown-min-width: 4rem;
-        }
+
         th:not(:first-child) {
             width: calc(100% / 7);
         }
@@ -106,7 +104,7 @@
 <HEader>
         
     </HEader>
-<div class="text-warning-emphasis d-flex justify-content-between align-items-center" containe style="background-color:white">
+    <div class="text-warning-emphasis d-flex justify-content-between align-items-center" containe style="background-color:white">
     <!-- Columna izquierda para el menú desplegable -->
     <div class="col">
         <div id="tituloPer" style="background-color: #308BBE; color:white; font-weight: bold; padding-bottom:5px;padding-top:5px;max-width: 400px;">
@@ -120,13 +118,13 @@
             <img class="puntoRojo" src="./assets/red_circle_flat.png" alt="Punto Rojo" style="position: absolute; top: 0; right: 0; z-index: 1;width: 20px; height: 20px" />
             <img class="campana" src="./assets/e56188aff073d3826d113a02398e223b.png" alt="Campana" style="width: 40px; height: 40px;" />
         </button>
-        
-    <div class="container-fluid">
+        <nav class="navbar navbar-dark menu">
+        <div class="container-fluid">
                 <!-- Botón toggler -->
                 <button style="display: inline-flex; flex-direction: row; align-items: center; position: relative; background: none; border: none; padding: 5px; text-align: left;">
                     <p class="UsuarioP" style="font-weight: bold; font-size: 25px; text-align: right; margin-left: 40px; margin-right: 40px; padding-top: 10px;" 
                     data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <?php echo $nombre ?>
+                        <?php echo $nombre; ?>
                     </p>
                     <img class="puntoVerde" src="./assets/green_circle_flat.png" alt="Punto Verde" style="width: 25px; height: 25px; vertical-align: middle;" />
                 </button>
@@ -140,9 +138,7 @@
                 </div>
 
             </div>
-
-
-
+        </nav>
         <nav class="navbar navbar-dark menu">
             <div class="container-fluid">
                 <!-- Botón toggler -->
@@ -150,13 +146,13 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <!-- Enlaces del navbar -->
-                <div class="dropdown-menu position-absolute" id="navbarSupportedContent" style="margin-top:250px;margin-right:500px;">
+                <div class="dropdown-menu position-absolute" id="navbarSupportedContent" >
                     <ul class="navbar-nav mr-auto">
                         <li>
-                            <button type="button" class="btn btn-lg btn-primary btn_menu" onclick="window.location.href='Login.php';">Eventos</button>
+                            <button type="button" class="btn btn-lg btn-primary btn_menu" onclick="window.location.href='E-2.php';">ACTIVIDADES</button>
                         </li>
                         <li>
-                            <button type="button" class="btn btn-lg btn-primary btn_menu" onclick="window.location.href='D-2.php';">Eventos</button>
+                            <button type="button" class="btn btn-lg btn-primary btn_menu" onclick="window.location.href='E-3.php';">ACTIVIDADES <br> PASADAS</button>
                         </li>
                     </ul>
                 </div>
@@ -461,5 +457,15 @@ function mostrarDetalleEvento(idActividad) {
     color: white;
 
 }
+.dropdown-menu {
+    --bs-dropdown-min-width: 6rem;
+
+  }
+.dropdown-menu {
+    --bs-dropdown-padding-y: 0rem; 
+    --bs-dropdown-font-size: 0rem; 
+    --bs-dropdown-bg: transparent; 
+    --bs-dropdown-border-color: transparent;
+    }
 </style>
 </html>

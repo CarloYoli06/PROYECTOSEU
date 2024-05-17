@@ -1,6 +1,6 @@
 <?php
  session_start(); 
- if(!$_SESSION['autenticado']){
+ if(!$_SESSION['autenticado'] or $_SESSION['tipous']!=2){
     header("location: U-1.php");
     exit();
  } 
@@ -38,6 +38,7 @@
     </div>
     
     <div  style="text-align: right;display: flex;background-color:white">
+        
         <button type="button" class="notificaciones" style="position: relative; background: none; border: none; padding: 5px;text-align: right;">
             <img class="puntoRojo" src="./assets/red_circle_flat.png" alt="Punto Rojo" style="position: absolute; top: 0; right: 0; z-index: 1;width: 20px; height: 20px" />
             <img class="campana" src="./assets/e56188aff073d3826d113a02398e223b.png" alt="Campana" style="width: 40px; height: 40px;" />
@@ -105,7 +106,7 @@
 
 
     <div style="display: grid; grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr);">
-
+    <button type="button csv" class="btn btn-lg boton_personalizado btn-primary " onclick="window.location.href='A-02.php';">VOLVER</button>
         <nav class="navbar bus" style="height: 40px; background-color: #FFFFFF;">
             <a class="navbar-brand act" style="font-size: smaller; font-weight: bold;">Inicio: </a>
             <form class="form-inline" style="height: 25px;">

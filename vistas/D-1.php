@@ -1,6 +1,6 @@
 <?php
  session_start(); 
- if(!$_SESSION['autenticado']){
+ if(!$_SESSION['autenticado'] or $_SESSION['tipous']!=3){
     header("location: U-1.php");
     exit();
  } 

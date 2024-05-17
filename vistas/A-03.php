@@ -1,6 +1,6 @@
 <?php
  session_start(); 
- if(!$_SESSION['autenticado']){
+ if(!$_SESSION['autenticado'] or $_SESSION['tipous']!=2){
     header("location: U-1.php");
     exit();
  } 
@@ -18,12 +18,42 @@
     <!-- Enlace a Bootstrap CSS -->
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="icon" type="image/png" href="./assets/1.png">
     
     
 
 </head>
+<script>
+    $(buscar(''));
+    function buscar(v){
+        var ruta="n="+v;
+        $.ajax({
+                url: '/ProyectoSEU/control/backAsis.php',
+                type: 'GET',
+                data: ruta,
+            })
+            .done(function(res){
+                $('#datos').html(res)
+                
+            })
+            .fail(function(){
+                console.log("error");
+            })
+            .always(function(){
+                console.log("complete");
+            });
+    }
+    $(document).on('keyup','#txt',function(){
+            var valor=$(this).val();
+            if(valor!=""){
+                buscar(valor);
+            }else{
+                buscar('');
+            }
+
+        });
+</script>
 <body class="body_cerrar">
     <HEader>
         
@@ -32,7 +62,7 @@
     <!-- Columna izquierda para el menú desplegable -->
     <div class="col">
         <div id="tituloPer" style="background-color: #308BBE; color:white; font-weight: bold; padding-bottom:5px;padding-top:5px;max-width: 400px;">
-            <h2>&nbsp ESCANEAR</h2>
+            <h2>&nbsp Escanear</h2>
         </div>
         
     </div>
@@ -42,12 +72,13 @@
             <img class="puntoRojo" src="./assets/red_circle_flat.png" alt="Punto Rojo" style="position: absolute; top: 0; right: 0; z-index: 1;width: 20px; height: 20px" />
             <img class="campana" src="./assets/e56188aff073d3826d113a02398e223b.png" alt="Campana" style="width: 40px; height: 40px;" />
         </button>
+        <nav class="navbar navbar-dark menu">
         <div class="container-fluid">
                 <!-- Botón toggler -->
                 <button style="display: inline-flex; flex-direction: row; align-items: center; position: relative; background: none; border: none; padding: 5px; text-align: left;">
                     <p class="UsuarioP" style="font-weight: bold; font-size: 25px; text-align: right; margin-left: 40px; margin-right: 40px; padding-top: 10px;" 
                     data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <?php echo $nombre ?>
+                        <?php echo $nombre; ?>
                     </p>
                     <img class="puntoVerde" src="./assets/green_circle_flat.png" alt="Punto Verde" style="width: 25px; height: 25px; vertical-align: middle;" />
                 </button>
@@ -55,27 +86,29 @@
                 <div class="dropdown-menu position-absolute" id="navbarSupportedContent1">
                     <ul class="navbar-nav mr-auto">
                         <li>
-                            <button type="button" class="btn btn-lg btn-primary btn_menu" onclick="window.location.href='U-2.php';" >Cerrar Sesión</button>
+                            <button type="button" class="btn btn-lg btn-primary btn_menu" onclick="window.location.href='U-2.php';">Cerrar Sesión</button>
                         </li>
                     </ul>
                 </div>
 
             </div>
-        <nav class="navbar navbar-dark menu">
+        </nav>
+            <nav class="navbar navbar-dark menu">
             <div class="container-fluid">
                 <!-- Botón toggler -->
                 <button class="navbar-toggler btn_main" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <!-- Enlaces del navbar -->
-                <div class="dropdown-menu position-absolute" id="navbarSupportedContent" style="margin-top:200px;margin-right:400px;">
+                <div class="dropdown-menu position-absolute" id="navbarSupportedContent" >
                     <ul class="navbar-nav mr-auto">
+                    <li>
+                            <button type="button" class="btn btn-lg btn-primary btn_menu" onclick="window.location.href='A-03.php';">EVENTOS</button>
+                        </li>
                         <li>
                             <button type="button" class="btn btn-lg btn-primary btn_menu" onclick="window.location.href='A-02.1.php';">ACTIVIDADES</button>
                         </li>
-                        <li>
-                            <button type="button" class="btn btn-lg btn-primary btn_menu" onclick="window.location.href='A-03.php';">ESCANEAR</button>
-                        </li>
+                        
                         <li>
                             <button type="button" class="btn btn-lg btn-primary btn_menu" onclick="window.location.href='A-04.php';">ASISTENCIA</button>
                         </li>
@@ -98,14 +131,14 @@
     <nav class="navbar bus">
         <a class="navbar-brand act">Actividad: </a>
         <form class="form-inline">
-            <input class="form-control mr-sm-2" type="buscar" placeholder="" aria-label="Search" style="width: 700px;">
+            <input class="form-control mr-sm-2" type="buscar" placeholder="" aria-label="Search" style="width: 700px;" id="txt">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
         </form>
     </nav>
 
 </div>
 
-<div class="cont_tabla"  style="margin: 0 auto;">
+<div class="cont_tabla"  style="margin: 0 auto;" id="datos">
     <table class="table tabla table-bordered">
     <thead>
         <tr class="table-secondary">
@@ -121,52 +154,6 @@
             <th>01/04/24</th>
             <th><a href="ass.s">Escanear</a></th>
         </tr>
-        <tr>
-            <th>Jornada Academica IGE</th>
-            <th>01/04/24</th>
-            <th><a href="ass.s">Escanear</a></th>
-        </tr>
-        <tr>
-            <th>Jornada Academica IE</th>
-            <th>01/04/24</th>
-            <th><a href="ass.s">Escanear</a></th>
-        </tr>
-        <tr>
-            <th>Jornada Academica IQ</th>
-            <th>01/04/24</th>
-            <th><a href="ass.s">Escanear</a></th>
-        </tr>
-        <tr>
-            <th>Jornada Academica IBQ</th>
-            <th>01/04/24</th>
-            <th><a href="ass.s">Escanear</a></th>
-        </tr>
-        <tr>
-            <th>Jornada Academica ISC</th>
-            <th>01/04/24</th>
-            <th><a href="ass.s">Escanear</a></th>
-        </tr>
-        <tr>
-            <th>Jornada Academica IGE</th>
-            <th>01/04/24</th>
-            <th><a href="ass.s">Escanear</a></th>
-        </tr>
-        <tr>
-            <th>Jornada Academica IE</th>
-            <th>01/04/24</th>
-            <th><a href="ass.s">Escanear</a></th>
-        </tr>
-        <tr>
-            <th>Jornada Academica IQ</th>
-            <th>01/04/24</th>
-            <th><a href="ass.s">Escanear</a></th>
-        </tr>
-        <tr>
-            <th>Jornada Academica IBQ</th>
-            <th>01/04/24</th>
-            <th><a href="ass.s">Escanear</a></th>
-        </tr>
-
     </tbody>
     </table>
 </div>
@@ -267,8 +254,7 @@
 }
 .dropdown-menu {
     --bs-dropdown-min-width: 6rem;
-     top: auto; 
-     left: auto;
+
   }
 .dropdown-menu {
     --bs-dropdown-padding-y: 0rem; 

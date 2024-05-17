@@ -1,6 +1,6 @@
 <?php
  session_start(); 
- if(!$_SESSION['autenticado']){
+ if(!$_SESSION['autenticado'] or $_SESSION['tipous']!=2){
     header("location: U-1.php");
     exit();
  } 
@@ -94,20 +94,19 @@
 </div>
 
 <div class="funciones">
-    <button type="button csv" class="btn btn-lg boton_personalizado btn-primary " >NUEVO</button>
+    <button type="button csv" class="btn btn-lg boton_personalizado btn-primary " onclick="window.location.href='A-01.php';">NUEVO</button>
 
     <nav class="navbar bus">
         <a class="navbar-brand act">Carrera: </a>
         <form class="form-flex">
-            <input class="form-control mr-sm-2" type="search" placeholder="----" aria-label="Search">
+            <input class="form-control mr-sm-2" id="carrera" name="carrera" type="search" placeholder="----" aria-label="Search">
         </form>
     </nav>
     
     <nav class="navbar bus">
         <a class="navbar-brand act">Evento: </a>
         <form class="form-inline">
-            <input class="form-control mr-sm-2" type="buscar" placeholder="" aria-label="Search" style="width: 1180px;">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+            <input class="form-control mr-sm-2" id="evento" name="evento" type="buscar" placeholder="" aria-label="Search" style="width: 1180px;">
         </form>
     </nav>
 
@@ -127,86 +126,7 @@
     </thead>
     <tbody id="content">
     
-        <tr>
-            <th>Jornada Academica ISC</th>
-            <th>01/04/24</th>
-            <th>05/04/24</th>
-            <th>ISC</th>
-            <th><a href="ass.s">Editar</a></th>
-            <th><input type="checkbox" id="cbox1" value="primer_checkbox" /></th>
-        </tr>
-        <tr>
-            <th>Jornada Academica IGE</th>
-            <th>01/04/24</th>
-            <th>05/04/24</th>
-            <th>IGE</th>
-            <th><a href="ass.s">Editar</a></th>
-            <th><input type="checkbox" id="cbox2" value="segundo_checkbox" /></th>
-        </tr>
-        <tr>
-            <th>Jornada Academica IE</th>
-            <th>01/04/24</th>
-            <th>05/04/24</th>
-            <th>IE</th>
-            <th><a href="ass.s">Editar</a></th>
-            <th><input type="checkbox" id="cbox1" value="primer_checkbox" /></th>
-        </tr>
-        <tr>
-            <th>Jornada Academica IQ</th>
-            <th>01/04/24</th>
-            <th>05/04/24</th>
-            <th>IQ</th>
-            <th><a href="ass.s">Editar</a></th>
-            <th><input type="checkbox" id="cbox1" value="primer_checkbox" /></th>
-        </tr>
-        <tr>
-            <th>Jornada Academica IBQ</th>
-            <th>01/04/24</th>
-            <th>05/04/24</th>
-            <th>IBQ</th>
-            <th><a href="ass.s">Editar</a></th>
-            <th><input type="checkbox" id="cbox1" value="primer_checkbox" /></th>
-        </tr>
-        <tr>
-            <th>Jornada Academica ISC</th>
-            <th>01/04/24</th>
-            <th>05/04/24</th>
-            <th>ISC</th>
-            <th><a href="ass.s">Editar</a></th>
-            <th><input type="checkbox" id="cbox1" value="primer_checkbox" /></th>
-        </tr>
-        <tr>
-            <th>Jornada Academica IGE</th>
-            <th>01/04/24</th>
-            <th>05/04/24</th>
-            <th>IGE</th>
-            <th><a href="ass.s">Editar</a></th>
-            <th><input type="checkbox" id="cbox2" value="segundo_checkbox" /></th>
-        </tr>
-        <tr>
-            <th>Jornada Academica IE</th>
-            <th>01/04/24</th>
-            <th>05/04/24</th>
-            <th>IE</th>
-            <th><a href="ass.s">Editar</a></th>
-            <th><input type="checkbox" id="cbox1" value="primer_checkbox" /></th>
-        </tr>
-        <tr>
-            <th>Jornada Academica IQ</th>
-            <th>01/04/24</th>
-            <th>05/04/24</th>
-            <th>-</th>
-            <th><a href="ass.s">Editar</a></th>
-            <th><input type="checkbox" id="cbox1" value="primer_checkbox" /></th>
-        </tr>
-        <tr>
-            <th>Jornada Academica IBQ</th>
-            <th>01/04/24</th>
-            <th>05/04/24</th>
-            <th>-</th>
-            <th><a href="ass.s">Editar</a></th>
-            <th><input type="checkbox" id="cbox1" value="primer_checkbox" /></th>
-        </tr>
+        
 
     </tbody>
     </table>
@@ -222,6 +142,36 @@
 
 <script src="js/bootstrap.bundle.min.js"></script>
 
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/bootstrap.js"></script>
+<script>
+    get_data()
+
+        document.getElementById("evento").addEventListener("keyup", get_data)
+        document.getElementById("carrera").addEventListener("keyup", get_data)
+
+        function get_data(){
+                let input = document.getElementById("evento").value
+                let input2 = document.getElementById("carrera").value
+                let content =document.getElementById("content")
+                let url = "../control/tablaA2.php"
+                let formadata = new FormData()
+                formadata.append("evento",input)
+                formadata.append("carrera",input2)
+                
+                fetch(url, {
+                        method: "POST",
+                        body: formadata,
+                }).then(Response => Response.json())
+                .then(data =>{
+                    content.innerHTML= data
+                }).catch(err =>console.log(err))
+
+            
+            }
+
+            
+    </SCRIPT>
 </body>
 <style>
 .boton_personalizado {

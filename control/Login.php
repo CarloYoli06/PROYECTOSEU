@@ -33,6 +33,7 @@ function acceso($conexion, $regreso, $nc) {
             $_SESSION['id_usuario'] = $noCtrl;
             $_SESSION['nombre_usuario'] = $nombre;
             $_SESSION['autenticado'] = true;
+            $_SESSION['tipous'] = 1;
             echo "Usuario: $noCtrl<br>";
             echo "Nombre: $nombre<br>";
             header("location: /ProyectoSEU/vistas/E-1.php");
@@ -50,6 +51,7 @@ function acceso($conexion, $regreso, $nc) {
             $_SESSION['id_usuario'] = $id_personal_admin;
             $_SESSION['nombre_usuario'] = $nombres_admin;
             $_SESSION['autenticado'] = true;
+            $_SESSION['tipous'] = 2;
             echo "Usuario: $id_personal_admin<br>";
             echo "Nombre: $nombres_admin<br>";
             header("location: /ProyectoSEU/vistas/A-02.php");
@@ -66,6 +68,7 @@ function acceso($conexion, $regreso, $nc) {
             $_SESSION['id_usuario'] = $id_personal_profesor;
             $_SESSION['nombre_usuario'] = $nombres_profesor;
             $_SESSION['autenticado'] = true;
+            $_SESSION['tipous'] = 3;
             echo "Usuario: $id_personal_profesor<br>";
             echo "Nombre: $nombres_profesor<br>";
             header("location: /ProyectoSEU/vistas/D-1.php");
