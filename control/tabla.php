@@ -23,7 +23,7 @@ if($campo != null && $alumno == null){
 $sql = "SELECT 
 aa.noCtrl,
 ac.NOMBRE AS nombre_actividad,
-al.NOMBRE,
+CONCAT(al.NOMBRE,' ',al.APELLIDOPAT,' ',al.APELLIDOMAT) AS NOMBREAL,
 ac.FECHA
 FROM ALUMNOS_ACTIVIDAD aa
 JOIN ALUMNOS al ON aa.noCtrl = al.noCtrl
@@ -44,7 +44,7 @@ if($num_rows >0){
         $html .= '<tr>';
         $html .= '<td>' .$row['nombre_actividad'].'</td>';
         $html .= '<td>' .$row['noCtrl'].'</td>';
-        $html .= '<td>' .$row['NOMBRE'].'</td>';
+        $html .= '<td>' .$row['NOMBREAL'].'</td>';
         $html .= '<td>' .$row['FECHA'].'</td>';
         $html .= '</tr>';
     }

@@ -5,7 +5,20 @@ include "C:/xampp/htdocs/ProyectoSEU/control/cont_05.php";
  if(!$_SESSION['autenticado'] or $_SESSION['tipous']!=2){
     header("location: U-1.php");
     exit();
- }
+}
+$id_usuario =  $_SESSION['id_usuario'];
+   $nombre=$_SESSION['nombre_usuario'];
+$prom = 0;
+$cap = 0;
+$ins = 0;
+$act = 0;
+while($dato = mysqli_fetch_array($re)){
+    $prom = $prom + $dato['ESTRELLAS'];
+    $cap = $cap + $dato['CAPACIDAD'];
+    $ins = $ins + $dato['INSCRITOS'];
+    $act =$act + $dato['Actividades'];
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -13,7 +26,7 @@ include "C:/xampp/htdocs/ProyectoSEU/control/cont_05.php";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     
-    <title>Escanear</title>
+    <title>Estadistica</title>
     <!-- Enlace a Bootstrap CSS -->
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -32,7 +45,7 @@ include "C:/xampp/htdocs/ProyectoSEU/control/cont_05.php";
     <!-- Columna izquierda para el menú desplegable -->
     <div class="col">
         <div id="tituloPer" style="background-color: #308BBE; color:white; font-weight: bold; padding-bottom:5px;padding-top:5px;max-width: 400px;">
-            <h2>&nbsp LISTA DE ASISTENCIA</h2>
+            <h2>&nbsp Estadistica</h2>
         </div>
         
     </div>
@@ -47,7 +60,7 @@ include "C:/xampp/htdocs/ProyectoSEU/control/cont_05.php";
                 <button style="display: inline-flex; flex-direction: row; align-items: center; position: relative; background: none; border: none; padding: 5px; text-align: left;">
                     <p class="UsuarioP" style="font-weight: bold; font-size: 25px; text-align: right; margin-left: 40px; margin-right: 40px; padding-top: 10px;" 
                     data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        
+                    <?php echo $nombre; ?>   
                     </p>
                     <img class="puntoVerde" src="./assets/green_circle_flat.png" alt="Punto Verde" style="width: 25px; height: 25px; vertical-align: middle;" />
                 </button>
@@ -95,8 +108,8 @@ include "C:/xampp/htdocs/ProyectoSEU/control/cont_05.php";
 </div>
 <form method ="post" action = "\ProyectoSEU\control\cont_05.php" >
 <div class="funciones" style="margin: 0 auto;">
-<button type="button csv" class="btn btn-lg boton_personalizado btn-primary " onclick="window.location.href='Login.php';" >Exportar en .csv</button>
-    <nav class="navbar bus">
+<button type="button csv" class="btn btn-lg boton_personalizado btn-primary " name = "btnExport" >Exportar en .xlsx</button>
+<nav class="navbar bus">
         <a class="navbar-brand ">Carrera: </a>
         <form class="form-inline" method="post" action="\ProyectoSEU\control\cont_05.php">
             <input class="form-control mr-sm-2" type="buscar" placeholder="" aria-label="Search" style="width: 300px;" name = "txtcar" >
@@ -120,24 +133,16 @@ include "C:/xampp/htdocs/ProyectoSEU/control/cont_05.php";
 </form>
 <div class="funciones" style="margin: 0 auto;">
     <nav class="navbar bus">
-        <a class="navbar-brand ">Actividades: </a>
-        <form class="form-inline">
-            <input class="form-control mr-sm-2"   aria-label="Search" style="width: 300px;" id="txt">
-        
-        </form>
+        <a class="navbar-brand ">Total de Actividades: </a>
+        <a class="navbar-brand act"><?php echo($act) ?> </a>
     </nav>
     <nav class="navbar bus">
-        <a class="navbar-brand act">Asistencia: </a>
-        <form class="form-inline">
-            <input class="form-control mr-sm-2"  aria-label="Search" style="width: 300px;" id="txt">
-        
-        </form>
+        <a class="navbar-brand act">Total Asistencia: </a>
+        <a class="navbar-brand act"><?php echo($ins) ?> </a>
     </nav>
     <nav class="navbar bus">
-        <a class="navbar-brand act">Eventos: </a>
-        <form class="form-inline">
-            <input class="form-control mr-sm-2"   aria-label="Search" style="width: 300px;" id="txt">
-        </form>
+        <a class="navbar-brand act">Total Eventos: </a>
+        <a class="navbar-brand act"><?php echo($eve) ?></a>
     </nav>
 </form>    
 
@@ -157,9 +162,6 @@ include "C:/xampp/htdocs/ProyectoSEU/control/cont_05.php";
     </thead>
     <tbody id="content">
     <?php 
-        $prom = 0;
-        $cap = 0;
-        $ins = 0;
         $can = 0;
         while($dato = mysqli_fetch_array($r)){
     ?>   
@@ -173,9 +175,6 @@ include "C:/xampp/htdocs/ProyectoSEU/control/cont_05.php";
             
         </tr>
         <?php
-        $prom = $prom + $dato['ESTRELLAS'];
-        $cap = $cap + $dato['CAPACIDAD'];
-        $ins = $ins + $dato['INSCRITOS'];
         $can = $can+1;
         }
 

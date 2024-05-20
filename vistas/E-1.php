@@ -328,7 +328,19 @@ function mostrarDetalleEvento(idActividad) {
             $('#facebookEvento').text(data.FACEBOOK);
             $('#instagramEvento').text(data.INSTAGRAM);
             $('#linkedinEvento').text(data.LINKEDIN);
-            //$('#linkedinEvento').text(data.DESCRIPCION); 
+
+            // Verificar si la fecha de la actividad ha pasado
+            var actividadFecha = new Date(data.FECHA);
+            var hoyFecha = new Date();
+
+            if (actividadFecha < hoyFecha) {
+                // La actividad es pasada, oculta el botón de desinscribirse
+                $('#btnDesinscribirse').hide();
+            } else {
+                // La actividad no es pasada, muestra el botón de desinscribirse
+                $('#btnDesinscribirse').show();
+            }
+            
             $('#myModal').modal('show');
         },
         error: function(xhr, status, error) {

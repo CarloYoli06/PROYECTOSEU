@@ -6,6 +6,7 @@
  } 
     $id_usuario =  $_SESSION['id_usuario'];
     $nombre=$_SESSION['nombre_usuario'];
+    require '../control/conexionTabla.php';
 
 ?>
 <!DOCTYPE html>
