@@ -110,7 +110,7 @@ INSERT INTO `actividad` (`id_ACTIVIDAD`, `NOMBRE`, `DESCRIPCION`, `FECHA`, `HORA
 (3, 'Charla de Emprendimiento', 'Conoce experiencias de emprendedores exitosos.', '2024-05-20', '16:00:00', 'Sala de Conferencias', 40, b'0', b'0', b'1', 3, 'T', 'IGE', 300, '17:00:00'),
 (8, 'Conferencia sobre la salud mental', 'Conferencia dedidacada a la salud mental de los alumnos del Tecnologico de tepic de Tepic.', '2024-05-18', '12:00:00', 'SALA DE CONFERENCIAS', 100, b'1', b'1', b'1', 2, 'T', 'IGE', 30, '13:00:00'),
 (9, 'Taller de Desarrollo de Videojuegos', 'Aprende los fundamentos basicos para el desarrollo de videojuegos en Godot.', '2024-05-29', '12:00:00', 'LCSO', 32, b'1', b'0', b'1', 1, 'A', 'ISC', 10, '16:00:00'),
-(10, 'Taller de Conexiones Eléctricas', 'Taller dedicado al desarrollo de conexiones electricas domesticas.', '2024-05-21', '10:00:00', 'J2', 35, b'1', b'0', b'1', 3, 'A', 'ISC', 15, '14:00:00'),
+(10, 'Taller de Conexiones Eléctricas', 'Taller dedicado al desarrollo de conexiones electricas domesticas.', '2024-05-21', '10:00:00', 'J2', 35, b'1', b'0', b'1', 3, 'A', 'IGE', 15, '14:00:00'),
 (11, 'Mercado Actual', 'Conferencia sobre el Estado Actual del Mercado.', '2024-05-26', '10:00:00', 'SALA DE CONFERENCIAS', 100, b'1', b'1', b'1', 2, 'A', 'IGE', 60, '11:00:00');
 
 -- --------------------------------------------------------
